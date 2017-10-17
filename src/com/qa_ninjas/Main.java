@@ -10,15 +10,58 @@
 
 package com.qa_ninjas;
 
+import java.util.Scanner;
+
 public class Main {
 
-    public static void main(String[] args) {
+    /**
+     * Global Properties
+     */
+    private static Scanner consoleInput = new Scanner(System.in);
 
+    /**
+     * Enums
+     */
+    public enum ValidCommands {
+        login,
+        logout,
+        createacct,
+        deleteacct,
+        transfer,
+        deposit,
+        withdraw
     }
 
-    public static void login(String accountsFileName, String tsfSummaryFileName) {
-        System.out.println("Please enter a session type: ");
+    /**
+     * QBasic Main Method.
+     * @param args
+     */
+    public static void main(String[] args) {
+        programStartupHeader();
 
-        String sessionType;
+        String command = "";
+        while (command != ValidCommands.logout.toString()) {
+            command = sUserPromptRead("");
+        }
+    }
+
+    /**
+     * Prints Program Header
+     */
+    private static void programStartupHeader() {
+        System.out.println("QBasic");
+        System.out.println("===============");
+        System.out.println("©2017 QA_Ninjas");
+    }
+
+    /**
+     * Prompt the user, and read a String from the console.
+     * @param promptPhrase
+     * @return
+     */
+    public static String sUserPromptRead(String promptPhrase) {
+        Scanner in = new Scanner(System.in);
+        System.out.print(promptPhrase + " ");
+        return in.nextLine();
     }
 }
