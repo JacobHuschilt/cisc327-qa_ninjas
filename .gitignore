@@ -23,5 +23,5 @@ hs_err_pid*
 
 # ignore IntelliJ files
 .idea/**.iws
-.idea/**workspace.xml
+.idea/workspace.xml
 .idea/**tasks.xml
