@@ -8,26 +8,19 @@ import java.util.ArrayList;
  * accounts.  The ArrayList called "accountList" takes ValidAccount objects.
  */
 public class AccountUtilities {
-    public boolean isAuthorized;
     ArrayList<ValidAccount> accountList = new ArrayList();
 
     /**
      * This method validates a given account number.  It prints an error message
      * warning the user if the account number did not meet the requirements.
-     * @param acctNum
+     *
+     * @param acctNum un-validated account number
      * @return true if the account number is valid, false otherwise.
      */
-    public static boolean isValidAcct(String acctNum) {
+    static boolean isValidAcct(String acctNum) {
         try {
             int acctNumInt = Integer.parseInt(acctNum);
-            if (acctNum.length() != 7) {
-                return false;
-            }
-            if (acctNum.charAt(0) == '0') {
-                return false;
-            }
-
-            return true;
+            return acctNum.length() != 7 || acctNum.charAt(0) == '0';
         } catch (NumberFormatException exception) {
             System.out.println("Error! Invalid Account Number: " + exception);
             return false;
@@ -36,10 +29,11 @@ public class AccountUtilities {
 
     /**
      * Determines if the account exists in the validAccounts file/temporary storage.
+     *
      * @param acctNum account number to search with
      * @return true if account exists, false otherwise
      */
-    public boolean doesAccountExist(int acctNum) {
+    private boolean doesAccountExist(int acctNum) {
         for (ValidAccount singleAccount : accountList) {
             if (acctNum == singleAccount.getAcctNum()) {
                 return true;
@@ -50,11 +44,12 @@ public class AccountUtilities {
     }
 
     /**
-     * Searches the lsit of valid accounts to determine if the specified account is new.
+     * Searches the list of valid accounts to determine if the specified account is new.
+     *
      * @param acctNum a valid account number
      * @return true if account is new, otherwise false
      */
-    public boolean isNewAccount(int acctNum) {
+    boolean isNewAccount(int acctNum) {
         for (ValidAccount account : accountList) {
             if (account.getAcctNum() == acctNum) {
                 if (account.isNew()) {
@@ -69,10 +64,11 @@ public class AccountUtilities {
     /**
      * This method validates a given account name.  It warns the user if the account
      * name is too short, too long or contains non-alphabetic characters.
-     * @param name
+     *
+     * @param name an un-verified name
      * @return true if valid and false otherwise.
      */
-    protected boolean isValidName(String name) {
+    private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
             if (!Character.isLetter(name.charAt(i))) {
                 System.out.println("Error! Invalid Account Name: " + name);
@@ -91,25 +87,41 @@ public class AccountUtilities {
      * account list declared above. It simply handles updating and does not return
      * anything. The third parameter "isNew" flag is set to true if the current
      * account that the method is working with is in fact new, false otherwise.
-     * @param acctNum
-     * @param name
-     * @param isNew
+     *
+     * @param acctNum a valid account number
+     * @param name    a valid name
+     * @param isNew   a boolean indicating whether to add or delete the specified account
      */
-    protected void updateAccountList(int acctNum, String name, boolean isNew) {
+    private void updateAccountList(int acctNum, String name, boolean isNew) {
         if (isNew) { // adding new account
+            // Update the Master TSF File change list
+            Main.tsfChanges.add("NEW" + " " + acctNum + " " + "000" + " " + "0000000" + name);
+
             ValidAccount newAcct = new ValidAccount(acctNum, name, true);
             accountList.add(newAcct);
         } else { // removing existing account
             for (ValidAccount singleAccount : accountList) {
-                // if the account number is found, delete that account object
-                if (acctNum == singleAccount.getAcctNum()){
+                // Find the account in the list, and delete it
+                if (acctNum == singleAccount.getAcctNum()) {
+                    // Update the Master TSF File change list
+                    Main.tsfChanges.add("DEL" + " " + acctNum + " " + "000" + " " + "0000000" + name);
+
                     accountList.remove(singleAccount);
+                    return;
                 }
             }
+
+            System.out.println("Error: Could not find account to delete in list of valid accounts");
         }
     }
 
-    public void createAccount(String acctNum, String name) {
+    /**
+     * Creates an account for the specified account number and name.
+     *
+     * @param acctNum an un-verified account number
+     * @param name    an un-verified account name
+     */
+    void createAccount(String acctNum, String name) {
         if (!isValidAcct(acctNum)) {
             System.out.println("Error: Bad Account number");
         } else if (!isValidName(name)) {
@@ -118,18 +130,20 @@ public class AccountUtilities {
             System.out.println("Error: Account already exists with the specified number!");
         } else {
             updateAccountList(Integer.parseInt(acctNum), name, true);
-            // TODO: Log the account creation in a TSF list in Main
-            // TODO: Record on the Main class that an account was created
         }
     }
 
-    public void deleteAccount(String acctNum, String name) {
+    /**
+     * Deletes an account with the specified account number.
+     *
+     * @param acctNum an un-verified account number
+     * @param name    an un-verified account name
+     */
+    void deleteAccount(String acctNum, String name) {
         if (isValidAcct(acctNum)) {
             if (!doesAccountExist(Integer.parseInt(acctNum))) {
                 System.out.println("Error: Account does not exist");
             } else { // account exists, and we can delete it!!!
-                // TODO: Update TSF before deleting so that we can record the account being deleted
-                // TODO: Log the account creation in a TSF list in Main
                 updateAccountList(Integer.parseInt(acctNum), name, false);
             }
         } else {

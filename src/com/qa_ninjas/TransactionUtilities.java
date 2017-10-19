@@ -22,24 +22,28 @@ public class TransactionUtilities {
      * @param sessionType The current sessionType as an enum
      * @return true if the specified amount is valid for a given sessionType, and false otherwise
      */
-    protected boolean isValidAmount(String amount, Session sessionType) {
+    private boolean isValidAmount(String amount, Session sessionType) {
         // making sure that the amount input is actually a number
         try {
             int amountInt = (Integer.parseInt(amount));
             if (sessionType == Session.agent) {
                 if (amountInt > 99999999) {
                     return false;
-                } else if (sessionType == Session.machine) {
-                    if (amountInt > 100000) {
-                        return false;
-                    }
+                }
+            } else if (sessionType == Session.machine) {
+                if (amountInt > 100000) {
+                    return false;
                 }
             }
             return true;
-        } catch (NumberFormatException exception) {
+        } catch (
+                NumberFormatException exception)
+
+        {
             System.out.println("Error! Amount is invalid.");
             return false;
         }
+
     }
 
 
@@ -52,14 +56,22 @@ public class TransactionUtilities {
      * @param toAcctNum   Valid To Account Number
      * @param name        Valid name
      */
-    protected void updateTransactionList(String code, String toAcctNum, String amount,
-                                         String fromAcctNum, String name) {
+    private void updateTransactionList(String code, String toAcctNum, String amount,
+                                       String fromAcctNum, String name) {
         transactionList.add(code + " " + toAcctNum + " " + amount + " " + fromAcctNum + " " + name);
         // TODO: Move list to main, and combine with accounts
     }
 
-
-    protected void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum, Session sessionType) {
+    /**
+     * Transfers an amount for the required given parameters after validating.
+     *
+     * @param accountUtilities AccountUtilities reference
+     * @param toAcctNum        un-verified account number to be used
+     * @param amount           un-verified amount to be transferred
+     * @param fromAcctNum      un-verified account number to be used
+     * @param sessionType      session type
+     */
+    void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is invalid.");
@@ -72,7 +84,15 @@ public class TransactionUtilities {
         }
     }
 
-    protected void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum, Session sessionType) {
+    /**
+     * Withdraws an amount for the required given parameters after validating.
+     *
+     * @param accountUtilities AccountUtilities reference
+     * @param amount           un-verified amount to be withdrawn
+     * @param fromAcctNum      un-verified account number to be used
+     * @param sessionType      session type
+     */
+    void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");
@@ -85,7 +105,15 @@ public class TransactionUtilities {
         }
     }
 
-    protected void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount, Session sessionType) {
+    /**
+     * Deposits an amount for the required given parameters after validating.
+     *
+     * @param accountUtilities AccountUtilities reference
+     * @param toAcctNum        un-verified account number to be used
+     * @param amount           un-verified amount to be deposited
+     * @param sessionType      session type
+     */
+    void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");

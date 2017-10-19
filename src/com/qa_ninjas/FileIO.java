@@ -4,11 +4,13 @@ import java.io.*;
 import java.util.ArrayList;
 
 /**
+ * Class to handle all File I/O operations.
+ *
  * Created by jacobhuschilt on 10/17/17.
  */
 public class FileIO {
 
-    public static ArrayList readFile(String filename) {
+    static ArrayList readFile(String filename) {
         ArrayList<String> fileContents = new ArrayList<>();
         File file = new File(filename);
         BufferedReader in = null;
@@ -24,12 +26,13 @@ public class FileIO {
         // Read the File one line at a time
         do {
             try {
-                String line = in.readLine();
+                String line;
 
-                if (line == null) {
-                    done = true;
-                } else {
+                if (in != null) {
+                    line = in.readLine();
                     fileContents.add(line);
+                } else {
+                    done = true;
                 }
             } catch (IOException error) {
                 System.out.println("Error reading file: " + error);

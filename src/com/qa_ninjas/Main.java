@@ -17,6 +17,14 @@ import java.util.ArrayList;
  * Main QBasic class, handles all I/O and delegation.
  */
 public class Main {
+
+    /**
+     * Public Properties
+     */
+
+    public static ArrayList<String> tsfChanges = new ArrayList();
+
+
     /**
      * QBasic Main Method.
      * @param args 3 input arguments are expected/required/needed
@@ -36,8 +44,6 @@ public class Main {
 
         TransactionUtilities transactionUtilities = new TransactionUtilities();
         ArrayList<String> inputCommands = FileIO.readFile(inputFilename);
-
-        ArrayList<String> tsfChanges = new ArrayList();
 
         boolean loggedIn = false;
         Session sessionType = Session.none;
