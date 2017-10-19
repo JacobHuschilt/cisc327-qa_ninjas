@@ -18,4 +18,8 @@ public class ValidAccount {
     public boolean isNew() {
         return isNew;
     }
+
+
+
+
 }

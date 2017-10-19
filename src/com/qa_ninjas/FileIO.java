@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class FileIO {
 
-    protected ArrayList readFile(String filename) {
+    public static ArrayList readFile(String filename) {
         ArrayList<String> fileContents = new ArrayList<>();
         File file = new File(filename);
         BufferedReader in = null;

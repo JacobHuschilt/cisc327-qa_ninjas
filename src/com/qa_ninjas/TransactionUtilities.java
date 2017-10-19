@@ -8,8 +8,9 @@ import java.util.ArrayList;
  * Created by jacobhuschilt on 10/18/17.
  */
 public class TransactionUtilities {
-    // Properties
 
+    // Properties
+    // TODO: Move to Main, and combine with account list modifications
     private ArrayList<String> transactionList;
 
 
@@ -30,8 +31,18 @@ public class TransactionUtilities {
      */
     protected boolean isValidAmount(int amount, Session sessionType) {
         // TODO: Check to see if amount is valid
-        return false;
+        if (sessionType == Session.AGENT) {
+            if (amount > 99999999) {
+                return false;
+            } else if (sessionType == Session.MACHINE) {
+                if (amount > 100000) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
+
 
     /**
      * Updates the temporary transaction list being stored in memory.
@@ -41,8 +52,28 @@ public class TransactionUtilities {
      * @param toAcctNum Valid To Account Number
      * @param name Valid name
      */
-    protected void updateTransactionList(String code, int fromAcctNum, int amount,
-                                         int toAcctNum, String name) {
+    protected void updateTransactionList(String code, int toAcctNum, int amount,
+                                         int fromAcctNum, String name) {
+//        if (code == "XFR") {
+//            String transfer =
+//
+//        }
         // TODO: update Transaction list
+    }
+
+
+    protected void transfer(String fromAcctNum, String amount, String toAcctNum) {
+        // TODO: validate number and amount, then transfer and update list, then record the transaction in the
+        // TODO: cont'd ^^^^ Main class so we can have a record to write to the file upon logout
+    }
+
+    protected void withdraw(String fromAcctNum, String amount) {
+        // TODO: validate number and amount, then withdraw and update list, then record the transaction in the
+        // TODO: cont'd ^^^^ Main class so we can have a record to write to the file upon logout
+    }
+
+    protected void deposit(String toAcctNum, String amount) {
+        // TODO: validate number and amount, then deposit and update list, then record the transaction in the
+        // TODO: cont'd ^^^^ Main class so we can have a record to write to the file upon logout
     }
 }
