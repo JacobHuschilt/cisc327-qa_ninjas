@@ -16,6 +16,7 @@ public class TransactionUtilities {
 
     /**
      * Constructor for TransactionUtilities
+     *
      * @param transactionList List of existing transactions
      */
     public TransactionUtilities(ArrayList<String> transactionList) {
@@ -25,55 +26,72 @@ public class TransactionUtilities {
 
     /**
      * Validates a specified amount for a specified sessionType.
-     * @param amount Amount to be transferred
+     *
+     * @param amount      Amount to be transferred
      * @param sessionType The current sessionType as an enum
      * @return true if the specified amount is valid for a given sessionType, and false otherwise
      */
-    protected boolean isValidAmount(int amount, Session sessionType) {
-        // TODO: Check to see if amount is valid
-        if (sessionType == Session.AGENT) {
-            if (amount > 99999999) {
-                return false;
-            } else if (sessionType == Session.MACHINE) {
-                if (amount > 100000) {
+    protected boolean isValidAmount(String amount, Session sessionType) {
+        // making sure that the amount input is actually a number
+        try {
+            int amountInt = (Integer.parseInt(amount));
+            if (sessionType == Session.AGENT) {
+                if (amountInt > 99999999) {
                     return false;
+                } else if (sessionType == Session.MACHINE) {
+                    if (amountInt > 100000) {
+                        return false;
+                    }
                 }
             }
+            return true;
+        } catch (NumberFormatException exception) {
+            System.out.println("Error! Amount is invalid.");
+            return false;
         }
-        return true;
     }
 
 
     /**
      * Updates the temporary transaction list being stored in memory.
-     * @param code Transaction Code
+     *
+     * @param code        Transaction Code
      * @param fromAcctNum Valid From Account Number
-     * @param amount Valid Amount to be transferred in cents
-     * @param toAcctNum Valid To Account Number
-     * @param name Valid name
+     * @param amount      Valid Amount to be transferred in cents
+     * @param toAcctNum   Valid To Account Number
+     * @param name        Valid name
      */
-    protected void updateTransactionList(String code, int toAcctNum, int amount,
-                                         int fromAcctNum, String name) {
-//        if (code == "XFR") {
-//            String transfer =
-//
-//        }
-        // TODO: update Transaction list
+    protected void updateTransactionList(String code, String toAcctNum, String amount,
+                                         String fromAcctNum, String name) {
+        transactionList.add(code + " " + toAcctNum + " " + amount + " " + fromAcctNum + " " + name);
+        // TODO: Move list to main, and combine with accounts
     }
 
 
-    protected void transfer(String fromAcctNum, String amount, String toAcctNum) {
-        // TODO: validate number and amount, then transfer and update list, then record the transaction in the
-        // TODO: cont'd ^^^^ Main class so we can have a record to write to the file upon logout
+    protected void transfer(String toAcctNum, String amount, String fromAcctNum, String name, Session sessionType) {
+        if (!isValidAmount(amount, sessionType)) {
+            // either out of range or input isn't a number
+            System.out.println("Error! Amount input is not valid.");
+        } else {
+            updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, name);
+        }
     }
 
-    protected void withdraw(String fromAcctNum, String amount) {
-        // TODO: validate number and amount, then withdraw and update list, then record the transaction in the
-        // TODO: cont'd ^^^^ Main class so we can have a record to write to the file upon logout
+    protected void withdraw(String amount, String fromAcctNum, String name, Session sessionType) {
+        if (!isValidAmount(amount, sessionType)) {
+            // either out of range or input isn't a number
+            System.out.println("Error! Amount input is not valid.");
+        } else {
+            updateTransactionList("WDR", "0000000", amount, fromAcctNum, name);
+        }
     }
 
-    protected void deposit(String toAcctNum, String amount) {
-        // TODO: validate number and amount, then deposit and update list, then record the transaction in the
-        // TODO: cont'd ^^^^ Main class so we can have a record to write to the file upon logout
+    protected void deposit(String toAcctNum, String amount, String name, Session sessionType) {
+        if (!isValidAmount(amount, sessionType)) {
+            // either out of range or input isn't a number
+            System.out.println("Error! Amount input is not valid.");
+        } else {
+            updateTransactionList("DEP", toAcctNum, amount, "0000000", name);
+        }
     }
 }

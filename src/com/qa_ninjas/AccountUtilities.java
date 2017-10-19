@@ -102,7 +102,7 @@ public class AccountUtilities {
         } else {
             updateAccountList(Integer.parseInt(acctNum), name, true);
             // TODO: Log the account creation in a TSF list in Main
-            // TODO: Record on the Main class that an acocunt was created
+            // TODO: Record on the Main class that an account was created
         }
     }
 
