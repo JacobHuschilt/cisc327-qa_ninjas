@@ -16,16 +16,6 @@ public class TransactionUtilities {
 
 
     /**
-     * Constructor for TransactionUtilities
-     *
-     * @param transactionList List of existing transactions
-     */
-    public TransactionUtilities(ArrayList<String> transactionList) {
-        this.transactionList = transactionList;
-    }
-
-
-    /**
      * Validates a specified amount for a specified sessionType.
      *
      * @param amount      Amount to be transferred
@@ -36,10 +26,10 @@ public class TransactionUtilities {
         // making sure that the amount input is actually a number
         try {
             int amountInt = (Integer.parseInt(amount));
-            if (sessionType == Session.AGENT) {
+            if (sessionType == Session.agent) {
                 if (amountInt > 99999999) {
                     return false;
-                } else if (sessionType == Session.MACHINE) {
+                } else if (sessionType == Session.machine) {
                     if (amountInt > 100000) {
                         return false;
                     }
@@ -69,7 +59,7 @@ public class TransactionUtilities {
     }
 
 
-    protected void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum, String name, Session sessionType) {
+    protected void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is invalid.");
@@ -78,11 +68,11 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum)) || accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
-            updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, name);
+            updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, "");
         }
     }
 
-    protected void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum, String name, Session sessionType) {
+    protected void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");
@@ -91,11 +81,11 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
-            updateTransactionList("WDR", "0000000", amount, fromAcctNum, name);
+            updateTransactionList("WDR", "0000000", amount, fromAcctNum, "");
         }
     }
 
-    protected void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount, String name, Session sessionType) {
+    protected void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");
@@ -104,7 +94,7 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
-            updateTransactionList("DEP", toAcctNum, amount, "0000000", name);
+            updateTransactionList("DEP", toAcctNum, amount, "0000000", "");
         }
     }
 }

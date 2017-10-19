@@ -45,7 +45,15 @@ public class FileIO {
         return fileContents;
     }
 
-    protected void writeToFile(String filename, ArrayList contents) {
-        // TODO: Wrtie to file
+    protected void writeToFile(String filename, ArrayList<String> contents) {
+        try {
+            PrintWriter write = new PrintWriter(new FileWriter(filename));
+            for (String line : contents) {
+                write.println(line); // write the line to the file
+            }
+            write.close();
+        } catch (IOException error) {
+            System.out.println("Error writing to the file");
+        }
     }
 }

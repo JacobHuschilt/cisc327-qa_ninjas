@@ -10,10 +10,12 @@
 
 package com.qa_ninjas;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
+/**
+ * Main QBasic class, handles all I/O and delegation.
+ */
 public class Main {
     /**
      * QBasic Main Method.
@@ -32,15 +34,22 @@ public class Main {
         AccountUtilities accountUtilities = new AccountUtilities();
         accountUtilities.accountList = FileIO.readFile(validAccountsFilename);
 
+        TransactionUtilities transactionUtilities = new TransactionUtilities();
         ArrayList<String> inputCommands = FileIO.readFile(inputFilename);
 
+        ArrayList<String> tsfChanges = new ArrayList();
+
         boolean loggedIn = false;
-        String sessionType = "";
+        Session sessionType = Session.none;
 
 
         // Looping through the list of commands
         for (String command : inputCommands) {
             String[] splitCommand = command.split(",");
+
+            if (!loggedIn && !splitCommand[0].equals("login")) {
+                System.out.println("Error! Not logged in");
+            }
 
             switch (splitCommand[0]) {
                 case "login": {
@@ -49,7 +58,7 @@ public class Main {
                     } else {
                         loggedIn = true;
                         if (splitCommand[1].equals("agent") || splitCommand[1].equals("machine")) {
-                            sessionType = splitCommand[1];
+                            sessionType = Session.valueOf(splitCommand[1]);
                         } else {
                             System.out.println("Error: Invalid session type specified");
                         }
@@ -60,23 +69,43 @@ public class Main {
                         System.out.println("Error: Already Logged-out!");
                     } else {
                         loggedIn = false;
-                        sessionType = "";
+                        sessionType = Session.none;
+                        // TODO: Write to TSF File
                     }
                 }
                 case "createacct": {
-                    // TODO: Stuff
+                    if (sessionType != Session.agent) {
+                        System.out.println("Error! You can only create accounts in agent mode.");
+                    } else {
+                        String acctNum = splitCommand[1];
+                        String name = splitCommand[2];
+                        accountUtilities.createAccount(acctNum, name);
+                    }
                 }
                 case "deleteacct": {
-                    // TODO: Stuff
+                    if (sessionType != Session.agent) {
+                        System.out.println("Error! You can only create accounts in agent mode.");
+                    } else {
+                        String acctNum = splitCommand[1];
+                        String name = splitCommand[2];
+                        accountUtilities.deleteAccount(acctNum, name);
+                    }
                 }
                 case "transfer": {
-                    // TODO: Stuff
+                    String toAcctNum = splitCommand[1];
+                    String fromAcctNum = splitCommand[1];
+                    String amount = splitCommand[1];
+                    transactionUtilities.transfer(accountUtilities, toAcctNum, amount, fromAcctNum, sessionType);
                 }
                 case "deposit": {
-                    // TODO: Stuff
+                    String toAcctNum = splitCommand[1];
+                    String amount = splitCommand[1];
+                    transactionUtilities.deposit(accountUtilities, toAcctNum, amount, sessionType);
                 }
                 case "withdraw": {
-                    // TODO: Stuff
+                    String fromAcctNum = splitCommand[1];
+                    String amount = splitCommand[1];
+                    transactionUtilities.withdraw(accountUtilities, amount, fromAcctNum, sessionType);
                 }
                 default: {
                     System.out.println("Error: Invalid command");
@@ -89,16 +118,5 @@ public class Main {
         // TODO: write to commandLineOutputFile
 
         // TODO: write to TSFFile
-
-        // TODO: REMOVE THIS TESTING CODE!!!
-        testAccountUtilities();
-    }
-
-    // TODO: REMOVE THIS TESTING CODE
-    public static void testAccountUtilities() {
-        AccountUtilities accountUtilities = new AccountUtilities();
-
-        System.out.println("Testing isValidAcct with 0123456 (should return false): " + accountUtilities.isValidAcct("0123456"));
-        System.out.println("Testing isValidAcct with 1234567 (should return true): " + accountUtilities.isValidAcct("1234567"));
     }
 }

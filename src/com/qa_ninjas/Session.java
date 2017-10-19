@@ -1,3 +1,3 @@
 package com.qa_ninjas;
 
-public enum Session { MACHINE, AGENT }
+public enum Session { none, machine, agent }
