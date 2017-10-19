@@ -17,7 +17,7 @@ public class AccountUtilities {
      * @param acctNum
      * @return true if the account number is valid, false otherwise.
      */
-    protected boolean isValidAcct(String acctNum) {
+    public static boolean isValidAcct(String acctNum) {
         try {
             int acctNumInt = Integer.parseInt(acctNum);
             if (acctNum.length() != 7) {
@@ -39,10 +39,27 @@ public class AccountUtilities {
      * @param acctNum account number to search with
      * @return true if account exists, false otherwise
      */
-    protected boolean doesAccountExist(int acctNum) {
+    public boolean doesAccountExist(int acctNum) {
         for (ValidAccount singleAccount : accountList) {
             if (acctNum == singleAccount.getAcctNum()) {
                 return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Searches the lsit of valid accounts to determine if the specified account is new.
+     * @param acctNum a valid account number
+     * @return true if account is new, otherwise false
+     */
+    public boolean isNewAccount(int acctNum) {
+        for (ValidAccount account : accountList) {
+            if (account.getAcctNum() == acctNum) {
+                if (account.isNew()) {
+                    return true;
+                }
             }
         }
 

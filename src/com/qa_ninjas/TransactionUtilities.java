@@ -1,6 +1,7 @@
 package com.qa_ninjas;
 
 import java.util.ArrayList;
+import java.util.function.IntBinaryOperator;
 
 /**
  * Stores list of all transactions to be written to TSF file, and holds common
@@ -68,28 +69,40 @@ public class TransactionUtilities {
     }
 
 
-    protected void transfer(String toAcctNum, String amount, String fromAcctNum, String name, Session sessionType) {
+    protected void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum, String name, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
-            System.out.println("Error! Amount input is not valid.");
+            System.out.println("Error! Amount input is invalid.");
+        } else if (!AccountUtilities.isValidAcct(toAcctNum) || !AccountUtilities.isValidAcct(fromAcctNum)) {
+            System.out.println("Error! Account number(s) are invalid.");
+        } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum)) || accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
+            System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
             updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, name);
         }
     }
 
-    protected void withdraw(String amount, String fromAcctNum, String name, Session sessionType) {
+    protected void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum, String name, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");
+        } else if (!AccountUtilities.isValidAcct(fromAcctNum)) {
+            System.out.println("Error! Account number is invalid.");
+        } else if (accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
+            System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
             updateTransactionList("WDR", "0000000", amount, fromAcctNum, name);
         }
     }
 
-    protected void deposit(String toAcctNum, String amount, String name, Session sessionType) {
+    protected void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount, String name, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");
+        } else if (!AccountUtilities.isValidAcct(toAcctNum)) {
+            System.out.println("Error! Account number is invalid.");
+        } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum))) {
+            System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
             updateTransactionList("DEP", toAcctNum, amount, "0000000", name);
         }

@@ -34,14 +34,12 @@ public class Main {
 
         ArrayList<String> inputCommands = FileIO.readFile(inputFilename);
 
-
         boolean loggedIn = false;
         String sessionType = "";
 
+
         // Looping through the list of commands
         for (String command : inputCommands) {
-            // TODO: Parse input lines by spaces into array
-
             String[] splitCommand = command.split(",");
 
             switch (splitCommand[0]) {
@@ -88,13 +86,9 @@ public class Main {
         }
 
 
-
-
-
         // TODO: write to commandLineOutputFile
 
         // TODO: write to TSFFile
-
 
         // TODO: REMOVE THIS TESTING CODE!!!
         testAccountUtilities();
