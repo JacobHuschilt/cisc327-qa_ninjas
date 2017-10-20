@@ -10,7 +10,6 @@
 
 package com.qa_ninjas;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -21,26 +20,27 @@ public class Main {
     /**
      * Public Properties
      */
-
-    public static ArrayList<String> tsfChanges = new ArrayList();
+    static ArrayList<String> tsfChanges = new ArrayList();
+    static ArrayList<String> terminalOutput = new ArrayList();
 
 
     /**
      * QBasic Main Method.
-     * @param args 3 input arguments are expected/required/needed
+     *
+     * @param args 4 input arguments are expected/required/needed
      */
     public static void main(String[] args) {
-        if (args.length < 3) {
-            System.out.println("Error: Did not find 3 arguments");
+        if (args.length != 4) {
+            terminalOutput.add("Error: Did not find 4 arguments (filenames)");
             return;
         }
 
         String validAccountsFilename = args[0];
-        String inputFilename = args[1];
-        String outputFilename = args[2];
+        String tsfFilename = args[1];
+        String inputFilename = args[2];
+        String outputFilename = args[3];
 
         AccountUtilities accountUtilities = new AccountUtilities();
-        accountUtilities.accountList = FileIO.readFile(validAccountsFilename);
 
         TransactionUtilities transactionUtilities = new TransactionUtilities();
         ArrayList<String> inputCommands = FileIO.readFile(inputFilename);
@@ -54,75 +54,125 @@ public class Main {
             String[] splitCommand = command.split(",");
 
             if (!loggedIn && !splitCommand[0].equals("login")) {
-                System.out.println("Error! Not logged in");
+                terminalOutput.add("Error! Not logged in");
             }
 
             switch (splitCommand[0]) {
                 case "login": {
                     if (loggedIn) {
-                        System.out.println("Error: Already logged in!");
+                        terminalOutput.add("Error: Already logged in!");
                     } else {
-                        loggedIn = true;
-                        if (splitCommand[1].equals("agent") || splitCommand[1].equals("machine")) {
-                            sessionType = Session.valueOf(splitCommand[1]);
-                        } else {
-                            System.out.println("Error: Invalid session type specified");
+                        try {
+                            if (splitCommand[1].equals("agent") || splitCommand[1].equals("machine")) {
+                                loggedIn = true;
+                                sessionType = Session.valueOf(splitCommand[1]);
+                                accountUtilities.accountList = parseValidAccountsFileContents(FileIO.readFile(validAccountsFilename));
+                            } else {
+                                terminalOutput.add("Error: Invalid session type specified");
+                            }
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            Main.terminalOutput.add("Error! Missing arguments for command: " + e);
                         }
                     }
                 }
                 case "logout": {
                     if (!loggedIn) {
-                        System.out.println("Error: Already Logged-out!");
+                        terminalOutput.add("Error: Already Logged-out!");
                     } else {
                         loggedIn = false;
                         sessionType = Session.none;
-                        // TODO: Write to TSF File
+                        // Append an EOS line to the TSF file
+                        tsfChanges.add("EOS" + " " + "0000000" + " " + "000" + " " + "0000000" + " " + "***");
+                        FileIO.writeToFile(tsfFilename, tsfChanges);
+                        FileIO.writeToFile(outputFilename, terminalOutput);
                     }
                 }
                 case "createacct": {
                     if (sessionType != Session.agent) {
-                        System.out.println("Error! You can only create accounts in agent mode.");
+                        terminalOutput.add("Error! You can only create accounts in agent mode.");
                     } else {
-                        String acctNum = splitCommand[1];
-                        String name = splitCommand[2];
-                        accountUtilities.createAccount(acctNum, name);
+                        try {
+                            String acctNum = splitCommand[1];
+                            String name = splitCommand[2];
+                            accountUtilities.createAccount(acctNum, name);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                        }
                     }
                 }
                 case "deleteacct": {
                     if (sessionType != Session.agent) {
-                        System.out.println("Error! You can only create accounts in agent mode.");
+                        terminalOutput.add("Error! You can only create accounts in agent mode.");
                     } else {
-                        String acctNum = splitCommand[1];
-                        String name = splitCommand[2];
-                        accountUtilities.deleteAccount(acctNum, name);
+                        try {
+                            String acctNum = splitCommand[1];
+                            String name = splitCommand[2];
+                            accountUtilities.deleteAccount(acctNum, name);
+                        } catch (ArrayIndexOutOfBoundsException e) {
+                            Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                        }
                     }
                 }
                 case "transfer": {
-                    String toAcctNum = splitCommand[1];
-                    String fromAcctNum = splitCommand[1];
-                    String amount = splitCommand[1];
-                    transactionUtilities.transfer(accountUtilities, toAcctNum, amount, fromAcctNum, sessionType);
+                    try {
+                        String toAcctNum = splitCommand[1];
+                        String fromAcctNum = splitCommand[1];
+                        String amount = splitCommand[1];
+                        transactionUtilities.transfer(accountUtilities, toAcctNum, amount, fromAcctNum, sessionType);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                    }
                 }
                 case "deposit": {
-                    String toAcctNum = splitCommand[1];
-                    String amount = splitCommand[1];
-                    transactionUtilities.deposit(accountUtilities, toAcctNum, amount, sessionType);
+                    try {
+                        String toAcctNum = splitCommand[1];
+                        String amount = splitCommand[1];
+                        transactionUtilities.deposit(accountUtilities, toAcctNum, amount, sessionType);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                    }
                 }
                 case "withdraw": {
-                    String fromAcctNum = splitCommand[1];
-                    String amount = splitCommand[1];
-                    transactionUtilities.withdraw(accountUtilities, amount, fromAcctNum, sessionType);
+                    try {
+
+                        String fromAcctNum = splitCommand[1];
+                        String amount = splitCommand[1];
+                        transactionUtilities.withdraw(accountUtilities, amount, fromAcctNum, sessionType);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                    }
                 }
                 default: {
-                    System.out.println("Error: Invalid command");
-                    continue;
+                    terminalOutput.add("Error: Invalid command");
                 }
             }
         }
+    }
 
+    /**
+     * Parses the validAccounts file contents into ValidAccount objects for use in the program.
+     *
+     * @param contents the file contents as a List of Strings
+     * @return file contents as a list of ValidAccount objects
+     */
+    private static ArrayList<ValidAccount> parseValidAccountsFileContents(ArrayList<String> contents) {
+        ArrayList<ValidAccount> accountList = new ArrayList();
 
-        // TODO: write to commandLineOutputFile
+        for (String account : contents) {
+            if (account.equals("0000000")) { // end of file
+                break;
+            }
 
-        // TODO: write to TSFFile
+            try {
+                int accountNum = Integer.parseInt(account);
+                ValidAccount validAccount = new ValidAccount(accountNum, "", false);
+
+                accountList.add(validAccount);
+            } catch (NumberFormatException e) {
+                terminalOutput.add("Error: Invalid account in validAccounts file");
+            }
+        }
+
+        return accountList;
     }
 }

@@ -22,7 +22,7 @@ public class AccountUtilities {
             int acctNumInt = Integer.parseInt(acctNum);
             return acctNum.length() != 7 || acctNum.charAt(0) == '0';
         } catch (NumberFormatException exception) {
-            System.out.println("Error! Invalid Account Number: " + exception);
+            Main.terminalOutput.add("Error! Invalid Account Number: " + exception);
             return false;
         }
     }
@@ -71,12 +71,12 @@ public class AccountUtilities {
     private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
             if (!Character.isLetter(name.charAt(i))) {
-                System.out.println("Error! Invalid Account Name: " + name);
+                Main.terminalOutput.add("Error! Invalid Account Name: " + name);
                 return false;
             }
         }
         if (name.length() < 3 || name.length() > 30) {
-            System.out.println("Error! Account Name Too Long: " + name);
+            Main.terminalOutput.add("Error! Account Name Too Long: " + name);
             return false;
         }
         return true;
@@ -95,7 +95,7 @@ public class AccountUtilities {
     private void updateAccountList(int acctNum, String name, boolean isNew) {
         if (isNew) { // adding new account
             // Update the Master TSF File change list
-            Main.tsfChanges.add("NEW" + " " + acctNum + " " + "000" + " " + "0000000" + name);
+            Main.tsfChanges.add("NEW" + " " + acctNum + " " + "000" + " " + "0000000" + " " + name);
 
             ValidAccount newAcct = new ValidAccount(acctNum, name, true);
             accountList.add(newAcct);
@@ -104,14 +104,14 @@ public class AccountUtilities {
                 // Find the account in the list, and delete it
                 if (acctNum == singleAccount.getAcctNum()) {
                     // Update the Master TSF File change list
-                    Main.tsfChanges.add("DEL" + " " + acctNum + " " + "000" + " " + "0000000" + name);
+                    Main.tsfChanges.add("DEL" + " " + acctNum + " " + "000" + " " + "0000000" + " " + name);
 
                     accountList.remove(singleAccount);
                     return;
                 }
             }
 
-            System.out.println("Error: Could not find account to delete in list of valid accounts");
+            Main.terminalOutput.add("Error: Could not find account to delete in list of valid accounts");
         }
     }
 
@@ -123,11 +123,11 @@ public class AccountUtilities {
      */
     void createAccount(String acctNum, String name) {
         if (!isValidAcct(acctNum)) {
-            System.out.println("Error: Bad Account number");
+            Main.terminalOutput.add("Error: Bad Account number");
         } else if (!isValidName(name)) {
-            System.out.println("Error: Bad account name");
+            Main.terminalOutput.add("Error: Bad account name");
         } else if (doesAccountExist(Integer.parseInt(acctNum))) {
-            System.out.println("Error: Account already exists with the specified number!");
+            Main.terminalOutput.add("Error: Account already exists with the specified number!");
         } else {
             updateAccountList(Integer.parseInt(acctNum), name, true);
         }
@@ -142,12 +142,12 @@ public class AccountUtilities {
     void deleteAccount(String acctNum, String name) {
         if (isValidAcct(acctNum)) {
             if (!doesAccountExist(Integer.parseInt(acctNum))) {
-                System.out.println("Error: Account does not exist");
+                Main.terminalOutput.add("Error: Account does not exist");
             } else { // account exists, and we can delete it!!!
                 updateAccountList(Integer.parseInt(acctNum), name, false);
             }
         } else {
-            System.out.println("Error: Invalid account number");
+            Main.terminalOutput.add("Error: Invalid account number");
         }
     }
 }

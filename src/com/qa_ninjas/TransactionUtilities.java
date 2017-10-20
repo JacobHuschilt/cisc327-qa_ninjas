@@ -9,12 +9,6 @@ import java.util.function.IntBinaryOperator;
  * Created by jacobhuschilt on 10/18/17.
  */
 public class TransactionUtilities {
-
-    // Properties
-    // TODO: Move to Main, and combine with account list modifications
-    private ArrayList<String> transactionList;
-
-
     /**
      * Validates a specified amount for a specified sessionType.
      *
@@ -40,7 +34,7 @@ public class TransactionUtilities {
                 NumberFormatException exception)
 
         {
-            System.out.println("Error! Amount is invalid.");
+            Main.terminalOutput.add("Error! Amount is invalid.");
             return false;
         }
 
@@ -58,8 +52,7 @@ public class TransactionUtilities {
      */
     private void updateTransactionList(String code, String toAcctNum, String amount,
                                        String fromAcctNum, String name) {
-        transactionList.add(code + " " + toAcctNum + " " + amount + " " + fromAcctNum + " " + name);
-        // TODO: Move list to main, and combine with accounts
+        Main.tsfChanges.add(code + " " + toAcctNum + " " + amount + " " + fromAcctNum + " " + name);
     }
 
     /**
@@ -74,11 +67,11 @@ public class TransactionUtilities {
     void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
-            System.out.println("Error! Amount input is invalid.");
+            Main.terminalOutput.add("Error! Amount input is invalid.");
         } else if (!AccountUtilities.isValidAcct(toAcctNum) || !AccountUtilities.isValidAcct(fromAcctNum)) {
-            System.out.println("Error! Account number(s) are invalid.");
+            Main.terminalOutput.add("Error! Account number(s) are invalid.");
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum)) || accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
-            System.out.println("Error! No transactions are allowed on new accounts.");
+            Main.terminalOutput.add("Error! No transactions are allowed on new accounts.");
         } else {
             updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, "");
         }
@@ -95,11 +88,11 @@ public class TransactionUtilities {
     void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
-            System.out.println("Error! Amount input is not valid.");
+            Main.terminalOutput.add("Error! Amount input is not valid.");
         } else if (!AccountUtilities.isValidAcct(fromAcctNum)) {
-            System.out.println("Error! Account number is invalid.");
+            Main.terminalOutput.add("Error! Account number is invalid.");
         } else if (accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
-            System.out.println("Error! No transactions are allowed on new accounts.");
+            Main.terminalOutput.add("Error! No transactions are allowed on new accounts.");
         } else {
             updateTransactionList("WDR", "0000000", amount, fromAcctNum, "");
         }
@@ -116,11 +109,11 @@ public class TransactionUtilities {
     void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount, Session sessionType) {
         if (!isValidAmount(amount, sessionType)) {
             // either out of range or input isn't a number
-            System.out.println("Error! Amount input is not valid.");
+            Main.terminalOutput.add("Error! Amount input is not valid.");
         } else if (!AccountUtilities.isValidAcct(toAcctNum)) {
-            System.out.println("Error! Account number is invalid.");
+            Main.terminalOutput.add("Error! Account number is invalid.");
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum))) {
-            System.out.println("Error! No transactions are allowed on new accounts.");
+            Main.terminalOutput.add("Error! No transactions are allowed on new accounts.");
         } else {
             updateTransactionList("DEP", toAcctNum, amount, "0000000", "");
         }

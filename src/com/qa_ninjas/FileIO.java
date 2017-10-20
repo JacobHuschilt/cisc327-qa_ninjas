@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class FileIO {
 
-    static ArrayList readFile(String filename) {
+    static ArrayList<String> readFile(String filename) {
         ArrayList<String> fileContents = new ArrayList<>();
         File file = new File(filename);
         BufferedReader in = null;
@@ -20,7 +20,7 @@ public class FileIO {
         try {
             in = new BufferedReader(new FileReader(file));
         } catch (FileNotFoundException error) {
-            System.out.println("The file cannot be opened: " + error);
+            Main.terminalOutput.add("The file cannot be opened: " + error);
         }
 
         // Read the File one line at a time
@@ -30,25 +30,31 @@ public class FileIO {
 
                 if (in != null) {
                     line = in.readLine();
-                    fileContents.add(line);
+                    if (line != null) {
+                        fileContents.add(line);
+                    } else {
+                        done = true;
+                    }
                 } else {
                     done = true;
                 }
             } catch (IOException error) {
-                System.out.println("Error reading file: " + error);
+                Main.terminalOutput.add("Error reading file: " + error);
             }
         } while (!done);
 
         try {
             in.close();
         } catch (IOException error) {
-            System.out.println("Error closing file: " + error);
+            Main.terminalOutput.add("Error closing file: " + error);
+        } catch (NullPointerException e) {
+            Main.terminalOutput.add("Error closing the file: " + e);
         }
 
         return fileContents;
     }
 
-    protected void writeToFile(String filename, ArrayList<String> contents) {
+    static void writeToFile(String filename, ArrayList<String> contents) {
         try {
             PrintWriter write = new PrintWriter(new FileWriter(filename));
             for (String line : contents) {
@@ -56,7 +62,7 @@ public class FileIO {
             }
             write.close();
         } catch (IOException error) {
-            System.out.println("Error writing to the file");
+            Main.terminalOutput.add("Error writing to the file");
         }
     }
 }
