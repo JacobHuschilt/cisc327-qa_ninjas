@@ -1,8 +1,5 @@
 package com.qa_ninjas;
 
-import java.util.ArrayList;
-import java.util.function.IntBinaryOperator;
-
 /**
  * Stores list of all transactions to be written to TSF file, and holds common
  * validation methods used by subclasses.
@@ -30,10 +27,7 @@ public class TransactionUtilities {
                 }
             }
             return true;
-        } catch (
-                NumberFormatException exception)
-
-        {
+        } catch (NumberFormatException exception) {
             Main.terminalOutput.add("Error! Amount is invalid.");
             return false;
         }
@@ -94,6 +88,12 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
             Main.terminalOutput.add("Error! No transactions are allowed on new accounts.");
         } else {
+            if (sessionType == Session.machine) {
+                boolean accountWithdrawLimitReached = accountUtilities.updateAtmAmountWithdrawn(Integer.parseInt(fromAcctNum), Integer.parseInt(amount));
+                if (!accountWithdrawLimitReached) {
+                    return;
+                }
+            }
             updateTransactionList("WDR", "0000000", amount, fromAcctNum, "");
         }
     }

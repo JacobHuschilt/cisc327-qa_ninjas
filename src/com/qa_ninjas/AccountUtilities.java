@@ -62,6 +62,31 @@ public class AccountUtilities {
     }
 
     /**
+     * Updates the amount withdrawn from an atm machine in the current session for the specified account number.
+     *
+     * @param acctNum a valid account number
+     * @param amount a valid amount to be withdrawn
+     * @return true if daily new amount plus old is under daily at limit, otherwise
+     */
+    boolean updateAtmAmountWithdrawn(int acctNum, int amount) {
+        for (ValidAccount account : accountList) {
+            if (account.getAcctNum() == acctNum) {
+                int newAmount = account.getAmountWithdrawnInSession() + amount;
+
+                if (newAmount < 100000) {
+                    account.setAmountWithdrawnInSession(newAmount);
+                    return true;
+                } else {
+                    Main.terminalOutput.add("Error: Daily ATM withdraw limit reached!");
+                    break;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * This method validates a given account name.  It warns the user if the account
      * name is too short, too long or contains non-alphabetic characters.
      *

@@ -10,6 +10,12 @@ import java.util.ArrayList;
  */
 public class FileIO {
 
+    /**
+     * Reads the contents of a specified file.
+     *
+     * @param filename a given filename
+     * @return the contents of the file
+     */
     static ArrayList<String> readFile(String filename) {
         ArrayList<String> fileContents = new ArrayList<>();
         File file = new File(filename);
@@ -54,6 +60,12 @@ public class FileIO {
         return fileContents;
     }
 
+    /**
+     * Writes the specified contents to the specified file.
+     *
+     * @param filename name of the file to be written to
+     * @param contents the contents to be written to the file
+     */
     static void writeToFile(String filename, ArrayList<String> contents) {
         try {
             PrintWriter write = new PrintWriter(new FileWriter(filename));
