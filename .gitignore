@@ -1,3 +1,6 @@
+# macOS folder files
+**.DS_STORE
+
 # Compiled class file
 *.class
 
@@ -25,3 +28,4 @@ hs_err_pid*
 .idea/**.iws
 .idea/workspace.xml
 .idea/**tasks.xml
+out/
