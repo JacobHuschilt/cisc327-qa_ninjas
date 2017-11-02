@@ -31,7 +31,7 @@ public class Main {
      */
     public static void main(String[] args) {
         if (args.length != 4) {
-            Main.terminalOutput.add("Error: Did not find 4 arguments (filenames)");
+            System.out.println("Error: Did not find 4 arguments (filenames)");
             return;
         }
 
@@ -54,13 +54,13 @@ public class Main {
             String[] splitCommand = command.split(",");
 
             if (!loggedIn && !splitCommand[0].equals("login")) {
-                Main.terminalOutput.add("Error! Not logged in");
+                System.out.println("Error! Not logged in");
             }
 
             switch (splitCommand[0]) {
                 case "login": {
                     if (loggedIn) {
-                        Main.terminalOutput.add("Error: Already logged in!");
+                        System.out.println("Error: Already logged in!");
                     } else {
                         try {
                             if (splitCommand[1].equals("agent") || splitCommand[1].equals("machine")) {
@@ -68,17 +68,17 @@ public class Main {
                                 sessionType = Session.valueOf(splitCommand[1]);
                                 accountUtilities.accountList = parseValidAccountsFileContents(FileIO.readFile(validAccountsFilename));
                             } else {
-                                Main.terminalOutput.add("Error: Invalid session type specified");
+                                System.out.println("Error: Invalid session type specified");
                             }
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                            System.out.println("Error! Missing arguments for command: " + e);
                         }
                     }
                     break;
                 }
                 case "logout": {
                     if (!loggedIn) {
-                        Main.terminalOutput.add("Error: Already Logged-out!");
+                        System.out.println("Error: Already Logged-out!");
                     } else {
                         loggedIn = false;
                         sessionType = Session.none;
@@ -91,28 +91,28 @@ public class Main {
                 }
                 case "createacct": {
                     if (sessionType != Session.agent) {
-                        Main.terminalOutput.add("Error! You can only create accounts in agent mode.");
+                        System.out.println("Error! You can only create accounts in agent mode.");
                     } else {
                         try {
                             String acctNum = splitCommand[1];
                             String name = splitCommand[2];
                             accountUtilities.createAccount(acctNum, name);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                            System.out.println("Error! Missing arguments for command: " + e);
                         }
                     }
                     break;
                 }
                 case "deleteacct": {
                     if (sessionType != Session.agent) {
-                        Main.terminalOutput.add("Error! You can only create accounts in agent mode.");
+                        System.out.println("Error! You can only create accounts in agent mode.");
                     } else {
                         try {
                             String acctNum = splitCommand[1];
                             String name = splitCommand[2];
                             accountUtilities.deleteAccount(acctNum, name);
                         } catch (ArrayIndexOutOfBoundsException e) {
-                            Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                            System.out.println("Error! Missing arguments for command: " + e);
                         }
                     }
                     break;
@@ -124,7 +124,7 @@ public class Main {
                         String amount = splitCommand[3];
                         transactionUtilities.transfer(accountUtilities, toAcctNum, amount, fromAcctNum, sessionType);
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                        System.out.println("Error! Missing arguments for command: " + e);
                     }
                     break;
                 }
@@ -134,7 +134,7 @@ public class Main {
                         String amount = splitCommand[2];
                         transactionUtilities.deposit(accountUtilities, toAcctNum, amount, sessionType);
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                        System.out.println("Error! Missing arguments for command: " + e);
                     }
                     break;
                 }
@@ -144,12 +144,12 @@ public class Main {
                         String amount = splitCommand[2];
                         transactionUtilities.withdraw(accountUtilities, amount, fromAcctNum, sessionType);
                     } catch (ArrayIndexOutOfBoundsException e) {
-                        Main.terminalOutput.add("Error! Missing arguments for command: " + e);
+                        System.out.println("Error! Missing arguments for command: " + e);
                     }
                     break;
                 }
                 default: {
-                    Main.terminalOutput.add("Error: Invalid command");
+                    System.out.println("Error: Invalid command");
                     break;
                 }
             }
@@ -176,7 +176,7 @@ public class Main {
 
                 accountList.add(validAccount);
             } catch (NumberFormatException e) {
-                Main.terminalOutput.add("Error: Invalid account in validAccounts file");
+                System.out.println("Error: Invalid account in validAccounts file");
             }
         }
 

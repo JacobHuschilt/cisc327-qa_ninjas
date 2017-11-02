@@ -22,7 +22,7 @@ public class AccountUtilities {
             int acctNumInt = Integer.parseInt(acctNum);
             return acctNum.length() != 7 || acctNum.charAt(0) == '0';
         } catch (NumberFormatException exception) {
-            Main.terminalOutput.add("Error! Invalid Account Number: " + exception);
+            System.out.println("Error! Invalid Account Number: " + exception);
             return false;
         }
     }
@@ -77,7 +77,7 @@ public class AccountUtilities {
                     account.setAmountWithdrawnInSession(newAmount);
                     return true;
                 } else {
-                    Main.terminalOutput.add("Error: Daily ATM withdraw limit reached!");
+                    System.out.println("Error: Daily ATM withdraw limit reached!");
                     break;
                 }
             }
@@ -96,12 +96,12 @@ public class AccountUtilities {
     private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
             if (!Character.isLetter(name.charAt(i))) {
-                Main.terminalOutput.add("Error! Invalid Account Name: " + name);
+                System.out.println("Error! Invalid Account Name: " + name);
                 return false;
             }
         }
         if (name.length() < 3 || name.length() > 30) {
-            Main.terminalOutput.add("Error! Account Name Too Long: " + name);
+            System.out.println("Error! Account Name Too Long: " + name);
             return false;
         }
         return true;
@@ -136,7 +136,7 @@ public class AccountUtilities {
                 }
             }
 
-            Main.terminalOutput.add("Error: Could not find account to delete in list of valid accounts");
+            System.out.println("Error: Could not find account to delete in list of valid accounts");
         }
     }
 
@@ -148,11 +148,11 @@ public class AccountUtilities {
      */
     void createAccount(String acctNum, String name) {
         if (!isValidAcct(acctNum)) {
-            Main.terminalOutput.add("Error: Bad Account number");
+            System.out.println("Error: Bad Account number");
         } else if (!isValidName(name)) {
-            Main.terminalOutput.add("Error: Bad account name");
+            System.out.println("Error: Bad account name");
         } else if (doesAccountExist(Integer.parseInt(acctNum))) {
-            Main.terminalOutput.add("Error: Account already exists with the specified number!");
+            System.out.println("Error: Account already exists with the specified number!");
         } else {
             updateAccountList(Integer.parseInt(acctNum), name, true);
         }
@@ -167,12 +167,12 @@ public class AccountUtilities {
     void deleteAccount(String acctNum, String name) {
         if (isValidAcct(acctNum)) {
             if (!doesAccountExist(Integer.parseInt(acctNum))) {
-                Main.terminalOutput.add("Error: Account does not exist");
+                System.out.println("Error: Account does not exist");
             } else { // account exists, and we can delete it!!!
                 updateAccountList(Integer.parseInt(acctNum), name, false);
             }
         } else {
-            Main.terminalOutput.add("Error: Invalid account number");
+            System.out.println("Error: Invalid account number");
         }
     }
 }
