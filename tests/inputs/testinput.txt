@@ -1,6 +1,0 @@
-login,agent
-createacct,1234567,Jon Stewart
-deleteacct,1234567,Jon
-createacct,1234569,Billy
-transfer,1234569,
-logout

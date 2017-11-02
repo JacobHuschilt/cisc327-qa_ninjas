@@ -120,8 +120,8 @@ public class Main {
                 case "transfer": {
                     try {
                         String toAcctNum = splitCommand[1];
-                        String fromAcctNum = splitCommand[1];
-                        String amount = splitCommand[1];
+                        String fromAcctNum = splitCommand[2];
+                        String amount = splitCommand[3];
                         transactionUtilities.transfer(accountUtilities, toAcctNum, amount, fromAcctNum, sessionType);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         Main.terminalOutput.add("Error! Missing arguments for command: " + e);
@@ -131,7 +131,7 @@ public class Main {
                 case "deposit": {
                     try {
                         String toAcctNum = splitCommand[1];
-                        String amount = splitCommand[1];
+                        String amount = splitCommand[2];
                         transactionUtilities.deposit(accountUtilities, toAcctNum, amount, sessionType);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         Main.terminalOutput.add("Error! Missing arguments for command: " + e);
@@ -141,7 +141,7 @@ public class Main {
                 case "withdraw": {
                     try {
                         String fromAcctNum = splitCommand[1];
-                        String amount = splitCommand[1];
+                        String amount = splitCommand[2];
                         transactionUtilities.withdraw(accountUtilities, amount, fromAcctNum, sessionType);
                     } catch (ArrayIndexOutOfBoundsException e) {
                         Main.terminalOutput.add("Error! Missing arguments for command: " + e);

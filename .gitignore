@@ -1,3 +1,6 @@
+# ignore temp vim files
+**.swp
+
 # macOS folder files
 **.DS_STORE
 
