@@ -21,7 +21,6 @@ public class Main {
      * Public Properties
      */
     static ArrayList<String> tsfChanges = new ArrayList();
-    static ArrayList<String> terminalOutput = new ArrayList();
 
 
     /**
@@ -38,7 +37,6 @@ public class Main {
         String validAccountsFilename = args[0];
         String tsfFilename = args[1];
         String inputFilename = args[2];
-        String outputFilename = args[3];
 
         AccountUtilities accountUtilities = new AccountUtilities();
 
@@ -85,7 +83,6 @@ public class Main {
                         // Append an EOS line to the TSF file
                         Main.tsfChanges.add("EOS" + " " + "0000000" + " " + "000" + " " + "0000000" + " " + "***");
                         FileIO.writeToFile(tsfFilename, Main.tsfChanges);
-                        FileIO.writeToFile(outputFilename, Main.terminalOutput);
                     }
                     break;
                 }
