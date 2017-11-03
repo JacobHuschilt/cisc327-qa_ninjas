@@ -29,8 +29,8 @@ public class Main {
      * @param args 4 input arguments are expected/required/needed
      */
     public static void main(String[] args) {
-        if (args.length != 4) {
-            System.out.println("Error: Did not find 4 arguments (filenames)");
+        if (args.length != 3) {
+            System.out.println("Error: Did not find 3 arguments (filenames)");
             return;
         }
 

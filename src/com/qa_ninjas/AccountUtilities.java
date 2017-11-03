@@ -20,7 +20,7 @@ public class AccountUtilities {
     static boolean isValidAcct(String acctNum) {
         try {
             int acctNumInt = Integer.parseInt(acctNum);
-            return acctNum.length() != 7 || acctNum.charAt(0) == '0';
+            return acctNum.length() == 7 || acctNum.charAt(0) != '0';
         } catch (NumberFormatException exception) {
             System.out.println("Error! Invalid Account Number: " + exception);
             return false;

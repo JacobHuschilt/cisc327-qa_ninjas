@@ -15,7 +15,7 @@ function runTests {
     for FILE in $INPUT_DIR/*.txt; do
         echo "Running Test: $FILE:"
         FILENAME="$(basename $FILE .txt)"
-        ./qbasic validaccounts.txt "../outputs/${FILENAME}output.txt" $FILE > outputs/${FILENAME}.log
+        ./qbasic validaccounts.txt "outputs/${FILENAME}output.txt" $FILE > outputs/${FILENAME}.log
     done
 
     echo "All tests have been run!"

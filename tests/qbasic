@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# ©2017 Jacob Huschilt
+# Date Modified: 11/02/2017
+
+if (( $# != 3 )); then
+    echo "Error Needs 3 arguments to run" >&2
+    exit 1
+fi
+
+ACCOUNT_FILE=$1
+TSF_FILE=$2
+INPUT_FILE=$3
+
+java -jar ../out/artifacts/cisc327_qa_ninjas_jar/cisc327-qa_ninjas.jar $1 $2 $3
+
+exit 0
