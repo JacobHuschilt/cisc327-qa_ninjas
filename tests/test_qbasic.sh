@@ -13,9 +13,11 @@ INPUT_DIR=$1
 
 function runTests {
     for FILE in $INPUT_DIR/*.txt; do
-        echo "Running Test: $FILE:"
         FILENAME="$(basename $FILE .txt)"
-        ./qbasic validaccounts.txt "outputs/${FILENAME}output.txt" $FILE > outputs/${FILENAME}.log
+        echo "Running Test: $FILENAME:"
+        OUTPUT_FILENAME="${FILENAME/Input/Output}"
+
+        ./qbasic validaccounts.txt "outputs/${OUTPUT_FILENAME}.txt" $FILE > outputs/${OUTPUT_FILENAME}.log
     done
 
     echo "All tests have been run!"
@@ -23,9 +25,13 @@ function runTests {
 
 function validateTestResults {
    for FILE in $INPUT_DIR/*.txt; do
-        echo "Validating otputs for test: $FILE"
-        diff outputs/$FILE.txt expected/$FILE.txt
-        diff outputs/$FILE.log expected/$FILE.log
+        FILENAME="$(basename $FILE .txt)"
+        echo "Validating otputs for test: $FILENAME"
+        OUTPUT_FILENAME="${FILENAME/Input/Output}"
+        EXPECTED_FILENAME="${FILENAME/Input/ExpectedOutput}"
+
+        diff outputs/${OUTPUT_FILENAME}.txt expected/${EXPECTED_FILENAME}.txt
+        diff outputs/${OUTPUT_FILENAME}.log expected/${EXPECTED_FILENAME}.log
     done
     
     echo "All tests have been validated!" 
@@ -33,6 +39,6 @@ function validateTestResults {
 
 runTests
 
-#validateTestResults
+validateTestResults
 
 exit 0
