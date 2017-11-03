@@ -1,3 +1,9 @@
-Error! Invalid Account Name: Jon Stewart
+login,agent
+createacct,3426571,Jonny Smith
+Error! Invalid Account Name: Jonny Smith
 Error: Bad account name
-Error! Missing arguments for command: java.lang.ArrayIndexOutOfBoundsException: 2
+logout
+HEY!!!
+YOOOO!!!
+STARTING TO WRITE
+DONE WRITING TO FILE!

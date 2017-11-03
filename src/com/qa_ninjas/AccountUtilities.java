@@ -95,7 +95,8 @@ public class AccountUtilities {
      */
     private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
-            if (!Character.isLetter(name.charAt(i))) {
+            // TODO: Something wrong here returns false for "Jonny Smith"
+            if (!Character.isAlphabetic(name.charAt(i)) || name.charAt(i) != ' ') {
                 System.out.println("Error! Invalid Account Name: " + name);
                 return false;
             }
