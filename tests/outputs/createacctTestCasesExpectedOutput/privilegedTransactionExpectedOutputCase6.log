@@ -1,1 +1,1 @@
-error, can't withdrawal unless in agent mode
+Error, privileged transaction failure!  Can't withdraw in ATM mode.
