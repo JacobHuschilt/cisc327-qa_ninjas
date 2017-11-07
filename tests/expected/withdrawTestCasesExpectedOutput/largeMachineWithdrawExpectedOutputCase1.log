@@ -1,1 +1,1 @@
-error: ATM withdraw must be in range (0,10000)
+Error! Amount input is not valid.

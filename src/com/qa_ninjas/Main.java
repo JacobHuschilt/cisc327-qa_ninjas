@@ -66,7 +66,7 @@ public class Main {
                                 sessionType = Session.valueOf(splitCommand[1]);
                                 accountUtilities.accountList = parseValidAccountsFileContents(FileIO.readFile(validAccountsFilename));
                             } else {
-                                System.out.println("Error: Invalid session type specified");
+                                System.out.println("Error: Invalid session type specified.");
                             }
                         } catch (ArrayIndexOutOfBoundsException e) {
                             System.out.println("Error! Missing arguments for command: " + e);
@@ -102,7 +102,7 @@ public class Main {
                 }
                 case "deleteacct": {
                     if (sessionType != Session.agent) {
-                        System.out.println("Error! You can only create accounts in agent mode.");
+                        System.out.println("Error! You can only delete accounts in agent mode.");
                     } else {
                         try {
                             String acctNum = splitCommand[1];
