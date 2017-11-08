@@ -1,1 +1,2 @@
-Error, privileged transaction failure!  Can't withdraw in ATM mode.
+Error! You can only create accounts in agent mode.
+Error! Amount input is not valid.

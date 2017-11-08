@@ -1,3 +1,3 @@
 login,agent
-transfer,3400071,45000,3400071
+transfer,3400071,4500,3400071
 logout
