@@ -102,7 +102,7 @@ public class AccountUtilities {
             }
         }
         if (name.length() < 3 || name.length() > 30) {
-            System.out.println("Error! Account Name Too Long: " + name);
+            System.out.println("Error! Unacceptable length for Account Name: " + name);
             return false;
         }
         return true;
