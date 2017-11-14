@@ -120,18 +120,12 @@ public class AccountUtilities {
      */
     private void updateAccountList(int acctNum, String name, boolean isNew) {
         if (isNew) { // adding new account
-            // Update the Master TSF File change list
-            Main.tsfChanges.add("NEW" + " " + acctNum + " " + "000" + " " + "0000000" + " " + name);
-
-            ValidAccount newAcct = new ValidAccount(acctNum, name, true);
+            ValidAccount newAcct = new ValidAccount(acctNum, 0, name, true);
             accountList.add(newAcct);
         } else { // removing existing account
             for (ValidAccount singleAccount : accountList) {
                 // Find the account in the list, and delete it
                 if (acctNum == singleAccount.getAcctNum()) {
-                    // Update the Master TSF File change list
-                    Main.tsfChanges.add("DEL" + " " + acctNum + " " + "000" + " " + "0000000" + " " + name);
-
                     accountList.remove(singleAccount);
                     return;
                 }
