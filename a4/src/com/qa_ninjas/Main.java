@@ -41,13 +41,21 @@ public class Main {
         ArrayList<String> masterAccountList = FileIO.readFile(masterAccountsFilename);
         ArrayList<String> transactionsToBeExecuted = FileIO.readFile(mergedTSFilename);
 
+        // Loop through the TSF file of commands to be processed
         handleTSFileCommands(transactionsToBeExecuted);
 
         // TODO: Output a new Master Accounts file
-        
-        // TODO: Output failures to the console
+        FileIO.writeToFile(masterAccountsFilename, masterAccountList);
+
+        // TODO: Output a new valid accounts file
+
     }
 
+    /**
+     * Loops through the commands in the TSF file and process them.
+     *
+     * @param commands List of un-parsed commands
+     */
     private static void handleTSFileCommands(ArrayList<String> commands) {
         boolean loggedIn = false;
         Session sessionType = Session.none;
@@ -154,10 +162,43 @@ public class Main {
         }
     }
 
-    private static ArrayList<String> formatMasterAccountsList(ArrayList<String> accountList) {
+    /**
+     * Writes to the master accounts file given a filename and account list.
+     *
+     * @param filename a filename as a String
+     * @param accountList a list of accounts to write
+     */
+    private static void writeNewMasterAccountsFile(String filename, ArrayList<ValidAccount> accountList) {
         ArrayList<String> masterAccountsFileList = new ArrayList<>(accountList.size());
 
-        return masterAccountsFileList;
+        for (ValidAccount account : accountList) {
+            String balance = (account.isActive()) ? account.getAcctBalance() + "" : "000";
+            String masterAccountLine = account.getAcctNum() + " " + balance + " " + account.getName();
+
+            masterAccountsFileList.add(masterAccountLine);
+        }
+
+        FileIO.writeToFile(filename, masterAccountsFileList);
+    }
+
+    /**
+     * Writes a new valid accounts file given a filename and list of accounts to record.
+     *
+     * @param filename a String representing the filename to be written to
+     * @param validAccounts an ArrayList of valid accounts
+     */
+    private static void writeNewValidAccountsFile(String filename, ArrayList<ValidAccount> validAccounts) {
+        ArrayList<String> linesToWrite = new ArrayList<>();
+
+        for (ValidAccount account : validAccounts) {
+            if (account.isActive()) {
+                linesToWrite.add(account.getAcctNum() + "");
+            }
+        }
+
+        linesToWrite.add("0000000");
+
+        FileIO.writeToFile(filename, linesToWrite);
     }
 
     /**
@@ -167,7 +208,7 @@ public class Main {
      * @return file contents as a list of ValidAccount objects
      */
     private static ArrayList<ValidAccount> parseMasterAccountsFileContents(ArrayList<String> contents) {
-        ArrayList<ValidAccount> accountList = new ArrayList();
+        ArrayList<ValidAccount> accountList = new ArrayList<>();
 
         for (String account : contents) {
             String[] accountInformation = account.split(" ");
@@ -177,7 +218,7 @@ public class Main {
                 int accountBalance = Integer.parseInt(accountInformation[1]);
                 String accountName = accountInformation[2];
 
-                ValidAccount validAccount = new ValidAccount(accountNum, accountBalance, accountName, false);
+                ValidAccount validAccount = new ValidAccount(accountNum, accountBalance, accountName, false, (accountBalance != 0));
 
                 accountList.add(validAccount);
             } catch (Exception e) {

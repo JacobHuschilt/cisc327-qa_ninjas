@@ -25,8 +25,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="472">
-              <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+            <state relative-caret-position="266">
+              <caret line="203" column="7" selection-start-line="203" selection-start-column="7" selection-end-line="203" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -35,8 +35,8 @@
       <file leaf-file-name="AccountUtilities.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/AccountUtilities.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2176">
-              <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+            <state relative-caret-position="453">
+              <caret line="123" column="37" selection-start-line="123" selection-start-column="37" selection-end-line="123" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -45,13 +45,18 @@
       <file leaf-file-name="ValidAccount.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/ValidAccount.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
+            <state relative-caret-position="408">
+              <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
               <folding>
-                <element signature="e#514#515#0" expanded="true" />
-                <element signature="e#548#549#0" expanded="true" />
-                <element signature="e#599#600#0" expanded="true" />
-                <element signature="e#645#646#0" expanded="true" />
+                <element signature="e#636#637#0" expanded="true" />
+                <element signature="e#670#671#0" expanded="true" />
+                <element signature="e#728#729#0" expanded="true" />
+                <element signature="e#779#780#0" expanded="true" />
+                <element signature="e#825#826#0" expanded="true" />
+                <element signature="e#916#917#0" expanded="true" />
+                <element signature="e#947#948#0" expanded="true" />
+                <element signature="e#992#993#0" expanded="true" />
+                <element signature="e#1025#1026#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -60,7 +65,7 @@
       <file leaf-file-name="FileIO.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/FileIO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
+            <state relative-caret-position="204">
               <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
               <folding />
             </state>
@@ -94,8 +99,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/com/qa_ninjas/ValidAccount.java" />
         <option value="$PROJECT_DIR$/src/com/qa_ninjas/AccountUtilities.java" />
+        <option value="$PROJECT_DIR$/src/com/qa_ninjas/ValidAccount.java" />
         <option value="$PROJECT_DIR$/src/com/qa_ninjas/Main.java" />
       </list>
     </option>
@@ -107,10 +112,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1504" />
+    <option name="x" value="960" />
     <option name="y" value="22" />
-    <option name="width" value="1504" />
-    <option name="height" value="1670" />
+    <option name="width" value="960" />
+    <option name="height" value="1178" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -139,42 +144,7 @@
     <panes>
       <pane id="Scope" />
       <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qa_ninjas-back-office" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qa_ninjas-back-office" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="a4" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qa_ninjas-back-office" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="a4" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="qa_ninjas" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
+        <subPane />
       </pane>
       <pane id="Scratches" />
       <pane id="PackagesPane" />
@@ -651,15 +621,15 @@
       <option name="presentableId" value="Default" />
       <updated>1510621440047</updated>
       <workItem from="1510621441389" duration="2118000" />
-      <workItem from="1510689622059" duration="2181000" />
+      <workItem from="1510689622059" duration="4302000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4299000" />
+    <option name="totallyTimeSpent" value="6420000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1504" y="22" width="1504" height="1670" extended-state="0" />
+    <frame x="960" y="22" width="960" height="1178" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -670,10 +640,10 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32979387" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31043097" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20559062" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20212767" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.20212767" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -709,14 +679,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/FileIO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/qa_ninjas-back-office.iml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -725,31 +687,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/ValidAccount.java">
+    <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/FileIO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="21" column="27" selection-start-line="21" selection-start-column="27" selection-end-line="21" selection-end-column="27" />
-          <folding>
-            <element signature="e#514#515#0" expanded="true" />
-            <element signature="e#548#549#0" expanded="true" />
-            <element signature="e#599#600#0" expanded="true" />
-            <element signature="e#645#646#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="204">
+          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/AccountUtilities.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2176">
-          <caret line="128" column="0" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+        <state relative-caret-position="453">
+          <caret line="123" column="37" selection-start-line="123" selection-start-column="37" selection-end-line="123" selection-end-column="37" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/ValidAccount.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="27" column="29" selection-start-line="27" selection-start-column="29" selection-end-line="27" selection-end-column="29" />
+          <folding>
+            <element signature="e#636#637#0" expanded="true" />
+            <element signature="e#670#671#0" expanded="true" />
+            <element signature="e#728#729#0" expanded="true" />
+            <element signature="e#779#780#0" expanded="true" />
+            <element signature="e#825#826#0" expanded="true" />
+            <element signature="e#916#917#0" expanded="true" />
+            <element signature="e#947#948#0" expanded="true" />
+            <element signature="e#992#993#0" expanded="true" />
+            <element signature="e#1025#1026#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/qa_ninjas/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="472">
-          <caret line="71" column="0" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        <state relative-caret-position="266">
+          <caret line="203" column="7" selection-start-line="203" selection-start-column="7" selection-end-line="203" selection-end-column="7" />
           <folding />
         </state>
       </provider>

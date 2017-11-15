@@ -5,12 +5,15 @@ public class ValidAccount {
     private int acctBalance;
     private String name;
     private boolean isNew;
+    private boolean isActive;
     private int amountWithdrawnInSession;
 
-    public ValidAccount(int acctNum, int acctBalance, String name, boolean isNew) {
+    public ValidAccount(int acctNum, int acctBalance, String name, boolean isNew, boolean isActive) {
         this.acctNum = acctNum;
+        this.acctBalance = acctBalance;
         this.name = name;
         this.isNew = isNew;
+        this.isActive = isActive;
         this.amountWithdrawnInSession = 0;
     }
 
@@ -22,12 +25,24 @@ public class ValidAccount {
         return acctBalance;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void setAcctBalance(int acctBalance) {
         this.acctBalance = acctBalance;
     }
 
     public boolean isNew() {
         return isNew;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public int getAmountWithdrawnInSession() {

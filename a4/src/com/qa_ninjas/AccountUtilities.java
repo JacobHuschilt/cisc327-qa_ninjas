@@ -120,13 +120,13 @@ public class AccountUtilities {
      */
     private void updateAccountList(int acctNum, String name, boolean isNew) {
         if (isNew) { // adding new account
-            ValidAccount newAcct = new ValidAccount(acctNum, 0, name, true);
+            ValidAccount newAcct = new ValidAccount(acctNum, 0, name, true, true);
             accountList.add(newAcct);
         } else { // removing existing account
             for (ValidAccount singleAccount : accountList) {
                 // Find the account in the list, and delete it
                 if (acctNum == singleAccount.getAcctNum()) {
-                    accountList.remove(singleAccount);
+                    singleAccount.setActive(false);
                     return;
                 }
             }
