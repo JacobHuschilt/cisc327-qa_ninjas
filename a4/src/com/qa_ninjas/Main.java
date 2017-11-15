@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * Main class file to delegate for the QBasic Back Office.
- *
+ * <p>
  * Created by jacobhuschilt on 11/13/17.
  * ©2017 QA_Ninjas
  */
@@ -17,147 +17,95 @@ public class Main {
     private static TransactionUtilities transactionUtilities = new TransactionUtilities();
 
     /**
-     * Main method for the QBAsic Back Office.
+     * Main method for the QBasic Back Office.
      *
-     * @param args [0] master accounts filename, [1] merged transaction summary filename
+     * @param args [0] old master accounts filename,
+     *             [1] merged transaction summary filename,
+     *             [2] new master accounts filename,
+     *             [3] new valid accounts filename
      */
     public static void main(String[] args) {
 
-        if (args.length != 2) {
-            System.out.println("Fatal Error: Need 2 arguments");
+        if (args.length != 4) {
+            System.out.println("Fatal Error: Need 4 arguments");
             return;
         }
 
-        String masterAccountsFilename = args[0];
+        String oldMasterAccountsFilename = args[0];
         String mergedTSFilename = args[1];
-
+        String newMasterAccountsFilename = args[2];
+        String newValidAccountsFilename = args[3];
 
         // read the 2 files
         try {
-            accountUtilities.accountList = parseMasterAccountsFileContents(FileIO.readFile(masterAccountsFilename));
+            accountUtilities.accountList = parseMasterAccountsFileContents(FileIO.readFile(oldMasterAccountsFilename));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Error! Missing arguments for command: " + e);
         }
-        ArrayList<String> masterAccountList = FileIO.readFile(masterAccountsFilename);
+        ArrayList<String> masterAccountList = FileIO.readFile(oldMasterAccountsFilename);
         ArrayList<String> transactionsToBeExecuted = FileIO.readFile(mergedTSFilename);
 
         // Loop through the TSF file of commands to be processed
         handleTSFileCommands(transactionsToBeExecuted);
 
         // TODO: Output a new Master Accounts file
-        FileIO.writeToFile(masterAccountsFilename, masterAccountList);
+        writeNewMasterAccountsFile(newMasterAccountsFilename, accountUtilities.accountList);
 
         // TODO: Output a new valid accounts file
-
+        writeNewValidAccountsFile(newValidAccountsFilename, accountUtilities.accountList);
     }
 
     /**
      * Loops through the commands in the TSF file and process them.
      *
-     * @param commands List of un-parsed commands
+     * @param lines List of un-parsed commands
      */
-    private static void handleTSFileCommands(ArrayList<String> commands) {
-        boolean loggedIn = false;
-        Session sessionType = Session.none;
+    private static void handleTSFileCommands(ArrayList<String> lines) {
+        // TODO: Fix all of this because there is no login type or anything, its just a list of commands from the summary file, and not a command input file
 
-        // Looping through the list of commands
-        for (String command : commands) {
-            String[] splitCommand = command.split(",");
+        // Looping through the list of lines
+        for (String commandLine : lines) {
+            String[] splitCommand = commandLine.split(" ");
 
-            if (!loggedIn && !splitCommand[0].equals("login")) {
-                System.out.println("Error! Not logged in");
-            }
+            try {
+                String command = splitCommand[0];
+                String toAcctNum = splitCommand[1];
+                String amount = splitCommand[2];
+                String fromAcctNum = splitCommand[3];
+                String name = splitCommand[4];
 
-            switch (splitCommand[0]) {
-                case "login": {
-                    if (loggedIn) {
-                        System.out.println("Error: Already logged in!");
-                    } else {
-                        try {
-                            if (splitCommand[1].equals("agent") || splitCommand[1].equals("machine")) {
-                                loggedIn = true;
-                                sessionType = Session.valueOf(splitCommand[1]);
-                            } else {
-                                System.out.println("Error: Invalid session type specified.");
-                            }
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            System.out.println("Error! Missing arguments for command: " + e);
-                        }
+                switch (command) {
+                    case "NEW": {
+                        accountUtilities.createAccount(toAcctNum, name);
+                        break;
                     }
-                    break;
-                }
-                case "logout": {
-                    if (!loggedIn) {
-                        System.out.println("Error: Already Logged-out!");
-                    } else {
-                        loggedIn = false;
-                        sessionType = Session.none;
+                    case "DEL": {
+                        accountUtilities.deleteAccount(toAcctNum, name);
+                        break;
                     }
-                    break;
-                }
-                case "createacct": {
-                    if (sessionType != Session.agent) {
-                        System.out.println("Error! You can only create accounts in agent mode.");
-                    } else {
-                        try {
-                            String acctNum = splitCommand[1];
-                            String name = splitCommand[2];
-                            accountUtilities.createAccount(acctNum, name);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            System.out.println("Error! Missing arguments for command: " + e);
-                        }
+                    case "XFR": {
+                        transactionUtilities.transfer(accountUtilities, toAcctNum, amount, fromAcctNum);
+                        break;
                     }
-                    break;
-                }
-                case "deleteacct": {
-                    if (sessionType != Session.agent) {
-                        System.out.println("Error! You can only delete accounts in agent mode.");
-                    } else {
-                        try {
-                            String acctNum = splitCommand[1];
-                            String name = splitCommand[2];
-                            accountUtilities.deleteAccount(acctNum, name);
-                        } catch (ArrayIndexOutOfBoundsException e) {
-                            System.out.println("Error! Missing arguments for command: " + e);
-                        }
+                    case "DEP": {
+                        transactionUtilities.deposit(accountUtilities, toAcctNum, amount);
+                        break;
                     }
-                    break;
-                }
-                case "transfer": {
-                    try {
-                        String toAcctNum = splitCommand[1];
-                        String fromAcctNum = splitCommand[2];
-                        String amount = splitCommand[3];
-                        transactionUtilities.transfer(accountUtilities, toAcctNum, amount, fromAcctNum, sessionType);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("Error! Missing arguments for command: " + e);
+                    case "WDR": {
+                        transactionUtilities.withdraw(accountUtilities, amount, fromAcctNum);
+                        break;
                     }
-                    break;
-                }
-                case "deposit": {
-                    try {
-                        String toAcctNum = splitCommand[1];
-                        String amount = splitCommand[2];
-                        transactionUtilities.deposit(accountUtilities, toAcctNum, amount, sessionType);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("Error! Missing arguments for command: " + e);
+                    case "EOS": {
+                        continue;
                     }
-                    break;
-                }
-                case "withdraw": {
-                    try {
-                        String fromAcctNum = splitCommand[1];
-                        String amount = splitCommand[2];
-                        transactionUtilities.withdraw(accountUtilities, amount, fromAcctNum, sessionType);
-                    } catch (ArrayIndexOutOfBoundsException e) {
-                        System.out.println("Error! Missing arguments for command: " + e);
+                    default: {
+                        System.out.println("Error: Invalid command");
+                        break;
                     }
-                    break;
                 }
-                default: {
-                    System.out.println("Error: Invalid command");
-                    break;
-                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Fatal Error! Invalid input file.");
+                return;
             }
         }
     }
@@ -165,14 +113,16 @@ public class Main {
     /**
      * Writes to the master accounts file given a filename and account list.
      *
-     * @param filename a filename as a String
+     * @param filename    a filename as a String
      * @param accountList a list of accounts to write
      */
     private static void writeNewMasterAccountsFile(String filename, ArrayList<ValidAccount> accountList) {
         ArrayList<String> masterAccountsFileList = new ArrayList<>(accountList.size());
 
+        // TODO: Make sure that you sort the accounts in ascending numerical order based
+        // TODO: Remove deleted accounts and don't include them in the new master accounts file or the valid accounts file!!!
         for (ValidAccount account : accountList) {
-            String balance = (account.isActive()) ? account.getAcctBalance() + "" : "000";
+            String balance = account.getAcctBalance() + "";
             String masterAccountLine = account.getAcctNum() + " " + balance + " " + account.getName();
 
             masterAccountsFileList.add(masterAccountLine);
@@ -184,16 +134,14 @@ public class Main {
     /**
      * Writes a new valid accounts file given a filename and list of accounts to record.
      *
-     * @param filename a String representing the filename to be written to
+     * @param filename      a String representing the filename to be written to
      * @param validAccounts an ArrayList of valid accounts
      */
     private static void writeNewValidAccountsFile(String filename, ArrayList<ValidAccount> validAccounts) {
         ArrayList<String> linesToWrite = new ArrayList<>();
 
         for (ValidAccount account : validAccounts) {
-            if (account.isActive()) {
-                linesToWrite.add(account.getAcctNum() + "");
-            }
+            linesToWrite.add(account.getAcctNum() + "");
         }
 
         linesToWrite.add("0000000");
@@ -218,7 +166,7 @@ public class Main {
                 int accountBalance = Integer.parseInt(accountInformation[1]);
                 String accountName = accountInformation[2];
 
-                ValidAccount validAccount = new ValidAccount(accountNum, accountBalance, accountName, false, (accountBalance != 0));
+                ValidAccount validAccount = new ValidAccount(accountNum, accountBalance, accountName, false);
 
                 accountList.add(validAccount);
             } catch (Exception e) {

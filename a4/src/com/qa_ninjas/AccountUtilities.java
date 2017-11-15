@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * accounts.  The ArrayList called "accountList" takes ValidAccount objects.
  */
 public class AccountUtilities {
-    ArrayList<ValidAccount> accountList = new ArrayList();
+    ArrayList<ValidAccount> accountList = new ArrayList<>();
 
     /**
      * This method validates a given account number.  It prints an error message
@@ -37,13 +37,29 @@ public class AccountUtilities {
         return (getAccountFromList(acctNum) != null);
     }
 
+//    /**
+//     * Updates the specified new balance for a specified account.
+//     *
+//     * @param acctNum    valid account number
+//     * @param newBalance new balance for the account
+//     */
+//    void updateBalanceForAcctNum(int acctNum, int newBalance) {
+//        try {
+//            ValidAccount account = getAccountFromList(acctNum);
+//
+//            account.setAcctBalance(newBalance);
+//        } catch (NullPointerException e) {
+//            System.out.println("Error! Account does not exist.");
+//        }
+//    }
+
     /**
      * Retrieves the account object associated with the specified acctNum.
      *
      * @param acctNum a valid account number
      * @return a valid account object if found in the list, null otherwise
      */
-    private ValidAccount getAccountFromList(int acctNum) {
+    ValidAccount getAccountFromList(int acctNum) {
         for (ValidAccount account : accountList) {
             if (acctNum == account.getAcctNum()) {
                 return account;
@@ -71,38 +87,6 @@ public class AccountUtilities {
         return false;
     }
 
-    int getBalanceWithAccountNum(int acctNum) {
-
-
-
-        return -1; // can't find account
-    }
-
-    /**
-     * Updates the amount withdrawn from an atm machine in the current session for the specified account number.
-     *
-     * @param acctNum a valid account number
-     * @param amount a valid amount to be withdrawn
-     * @return true if daily new amount plus old is under daily at limit, otherwise
-     */
-    boolean updateAtmAmountWithdrawn(int acctNum, int amount) {
-        for (ValidAccount account : accountList) {
-            if (account.getAcctNum() == acctNum) {
-                int newAmount = account.getAmountWithdrawnInSession() + amount;
-
-                if (newAmount < 100000) {
-                    account.setAmountWithdrawnInSession(newAmount);
-                    return true;
-                } else {
-                    System.out.println("Error: Daily ATM withdraw limit reached!");
-                    break;
-                }
-            }
-        }
-
-        return false;
-    }
-
     /**
      * This method validates a given account name.  It warns the user if the account
      * name is too short, too long or contains non-alphabetic characters.
@@ -112,16 +96,17 @@ public class AccountUtilities {
      */
     private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
-            // TODO: Something wrong here returns false for "Jonny Smith"
-            if (!Character.isAlphabetic(name.charAt(i)) || name.charAt(i) != ' ') {
+            if (name.charAt(0) != ' ' || !Character.isAlphabetic(name.charAt(i))) {
                 System.out.println("Error! Invalid Account Name: " + name);
                 return false;
             }
         }
+
         if (name.length() < 3 || name.length() > 30) {
             System.out.println("Error! Unacceptable length for Account Name: " + name);
             return false;
         }
+
         return true;
     }
 
@@ -137,13 +122,13 @@ public class AccountUtilities {
      */
     private void updateAccountList(int acctNum, String name, boolean isNew) {
         if (isNew) { // adding new account
-            ValidAccount newAcct = new ValidAccount(acctNum, 0, name, true, true);
+            ValidAccount newAcct = new ValidAccount(acctNum, 0, name, true);
             accountList.add(newAcct);
         } else { // removing existing account
             for (ValidAccount singleAccount : accountList) {
                 // Find the account in the list, and delete it
                 if (acctNum == singleAccount.getAcctNum()) {
-                    singleAccount.setActive(false);
+                    // TODO: Actually delete the account from the list
                     return;
                 }
             }
@@ -181,6 +166,7 @@ public class AccountUtilities {
             if (!doesAccountExist(Integer.parseInt(acctNum))) {
                 System.out.println("Error: Account does not exist");
             } else { // account exists, and we can delete it!!!
+                // TODO: Check to see if the account balance is 0 before deleting it from the master and valid list
                 updateAccountList(Integer.parseInt(acctNum), name, false);
             }
         } else {

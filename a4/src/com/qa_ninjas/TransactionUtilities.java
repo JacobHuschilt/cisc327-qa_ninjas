@@ -3,36 +3,20 @@ package com.qa_ninjas;
 /**
  * Stores list of all transactions to be written to TSF file, and holds common
  * validation methods used by subclasses.
- * Created by jacobhuschilt on 10/18/17.
+ * Created by jacobhuschilt on 11/10/17.
  */
 public class TransactionUtilities {
 
     /**
-     * Global Properties
-     */
-    private static final int NO_ACCOUNT = -1;
-
-    /**
-     * Validates a specified amount for a specified sessionType.
+     * Validates a specified amount.
      *
-     * @param amount      Amount to be transferred
-     * @param sessionType The current sessionType as an enum
-     * @return true if the specified amount is valid for a given sessionType, and false otherwise
+     * @param amount        Amount to be transferred
+     * @return              true if the specified amount is valid, and false otherwise
      */
-    private boolean isValidAmount(String amount, Session sessionType) {
+    private boolean isValidAmount(String amount) {
         // making sure that the amount input is actually a number
         try {
             int amountInt = (Integer.parseInt(amount));
-
-            if (sessionType == Session.agent) {
-                if (amountInt > 99999999) {
-                    return false;
-                }
-            } else if (sessionType == Session.machine) {
-                if (amountInt > 100000) {
-                    return false;
-                }
-            }
 
             return true;
         } catch (NumberFormatException exception) {
@@ -43,20 +27,67 @@ public class TransactionUtilities {
 
     }
 
-    private boolean isValidTransaction(AccountUtilities accountUtilities, int fromAcctNum, int toAcctNum, int amount) {
-        if (fromAcctNum == NO_ACCOUNT && toAcctNum == NO_ACCOUNT) { // transfer
+    /**
+     * Validates a transaction doesn't have a negative balance.
+     *
+     * @param accountUtilities  accountUtilities reference
+     * @param fromAcctNum       a valid account number
+     * @param amount            a valid amount
+     * @return true             if the transaction does not result in a negative account balance, false otherwise
+     */
+    private boolean isValidTransaction(AccountUtilities accountUtilities, int fromAcctNum, int amount) {
+        try {
+            ValidAccount fromAccount = accountUtilities.getAccountFromList(fromAcctNum);
 
-            return false;
-        } else if (fromAcctNum == NO_ACCOUNT) { // deposit
+            if (fromAccount.getAcctBalance() - amount < 0) {
+                System.out.println("Error: Cannot have a negative balance after transaction.");
+                return false;
+            }
 
+            return true;
+        } catch (NullPointerException e) {
+            System.out.println("Error: Account Does not exist.");
             return false;
-        } else if (toAcctNum == NO_ACCOUNT) { // withdraw
+        }
+    }
 
-            return false;
-        } else { // invalid transaction
-            System.out.println("Error: Invalid transaction");
+    /**
+     * Updates the account balances after a transaction is verified externally, using the specified amount and transaction type.
+     *
+     * @param accountUtilities  AccountUtilities reference
+     * @param transactionType   transaction type as an enum reference
+     * @param fromAcctNum       valid from account number or 0 if not applicable
+     * @param toAcctNum         valid to account number or 0 if not applicable
+     * @param amount            valid amount
+     */
+    private void updateAccountBalancesForTransaction(AccountUtilities accountUtilities, Transaction transactionType,
+                                                     int fromAcctNum, int toAcctNum, int amount) {
+        ValidAccount fromAccount, toAccount;
 
-            return false;
+        switch (transactionType) {
+            case transfer: {
+                fromAccount = accountUtilities.getAccountFromList(fromAcctNum);
+                toAccount = accountUtilities.getAccountFromList(toAcctNum);
+
+                fromAccount.setAcctBalance(fromAccount.getAcctBalance() - amount);
+                toAccount.setAcctBalance(toAccount.getAcctBalance() + amount);
+
+                break;
+            }
+            case deposit: {
+                toAccount = accountUtilities.getAccountFromList(toAcctNum);
+
+                toAccount.setAcctBalance(toAccount.getAcctBalance() + amount);
+
+                break;
+            }
+            case withdraw: {
+                fromAccount = accountUtilities.getAccountFromList(fromAcctNum);
+
+                fromAccount.setAcctBalance(fromAccount.getAcctBalance() - amount);
+
+                break;
+            }
         }
     }
 
@@ -67,19 +98,19 @@ public class TransactionUtilities {
      * @param toAcctNum        un-verified account number to be used
      * @param amount           un-verified amount to be transferred
      * @param fromAcctNum      un-verified account number to be used
-     * @param sessionType      session type
      */
-    void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum, Session sessionType) {
-        if (!isValidAmount(amount, sessionType)) {
+    void transfer(AccountUtilities accountUtilities, String toAcctNum, String amount, String fromAcctNum) {
+        if (!isValidAmount(amount)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is invalid.");
         } else if (!AccountUtilities.isValidAcct(toAcctNum) || !AccountUtilities.isValidAcct(fromAcctNum)) {
             System.out.println("Error! Account number(s) are invalid.");
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum)) || accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
+        } else if (!isValidTransaction(accountUtilities, Integer.parseInt(fromAcctNum), Integer.parseInt(amount))) {
+            System.out.println("Error! Cannot have negative account balance after transaction.");
         } else {
-            // TODO: Check to see that the transfer does not give anyone a negative account balance
-            updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, "");
+            updateAccountBalancesForTransaction(accountUtilities, Transaction.transfer, Integer.parseInt(fromAcctNum), Integer.parseInt(toAcctNum), Integer.parseInt(amount));
         }
     }
 
@@ -89,25 +120,19 @@ public class TransactionUtilities {
      * @param accountUtilities AccountUtilities reference
      * @param amount           un-verified amount to be withdrawn
      * @param fromAcctNum      un-verified account number to be used
-     * @param sessionType      session type
      */
-    void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum, Session sessionType) {
-        if (!isValidAmount(amount, sessionType)) {
+    void withdraw(AccountUtilities accountUtilities, String amount, String fromAcctNum) {
+        if (!isValidAmount(amount)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");
         } else if (!AccountUtilities.isValidAcct(fromAcctNum)) {
             System.out.println("Error! Account number is invalid.");
         } else if (accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
+        } else if (!isValidTransaction(accountUtilities, Integer.parseInt(fromAcctNum), Integer.parseInt(amount))) {
+            System.out.println("Error! Cannot have negative account balance after transaction.");
         } else {
-            if (sessionType == Session.machine) {
-                boolean accountWithdrawLimitReached = accountUtilities.updateAtmAmountWithdrawn(Integer.parseInt(fromAcctNum), Integer.parseInt(amount));
-                if (!accountWithdrawLimitReached) {
-                    return;
-                }
-            }
-            // TODO: Check to see that the transfer does not give anyone a negative account balance
-            updateTransactionList("WDR", "0000000", amount, fromAcctNum, "");
+            updateAccountBalancesForTransaction(accountUtilities, Transaction.withdraw, Integer.parseInt(fromAcctNum), 0, Integer.parseInt(amount));
         }
     }
 
@@ -117,10 +142,9 @@ public class TransactionUtilities {
      * @param accountUtilities AccountUtilities reference
      * @param toAcctNum        un-verified account number to be used
      * @param amount           un-verified amount to be deposited
-     * @param sessionType      session type
      */
-    void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount, Session sessionType) {
-        if (!isValidAmount(amount, sessionType)) {
+    void deposit(AccountUtilities accountUtilities, String toAcctNum, String amount) {
+        if (!isValidAmount(amount)) {
             // either out of range or input isn't a number
             System.out.println("Error! Amount input is not valid.");
         } else if (!AccountUtilities.isValidAcct(toAcctNum)) {
@@ -128,8 +152,7 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
-            // TODO: Check to see that the transfer does not give anyone a negative account balance
-            updateTransactionList("DEP", toAcctNum, amount, "0000000", "");
+            updateAccountBalancesForTransaction(accountUtilities, Transaction.deposit, 0, Integer.parseInt(toAcctNum), Integer.parseInt(amount));
         }
     }
 }
