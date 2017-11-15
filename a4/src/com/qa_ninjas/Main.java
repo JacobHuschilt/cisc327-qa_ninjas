@@ -26,16 +26,15 @@ public class Main {
      *             [3] new valid accounts filename
      */
     public static void main(String[] args) {
-
         if (args.length != 4) {
             System.out.println("Fatal Error: Need 4 arguments");
             return;
         }
 
-        String oldMasterAccountsFilename =  args[0];
-        String mergedTSFilename =           args[1];
-        String newMasterAccountsFilename =  args[2];
-        String newValidAccountsFilename =   args[3];
+        String oldMasterAccountsFilename = args[0];
+        String mergedTSFilename = args[1];
+        String newMasterAccountsFilename = args[2];
+        String newValidAccountsFilename = args[3];
 
         try {
             accountUtilities.accountList = parseMasterAccountsFileContents(FileIO.readFile(oldMasterAccountsFilename));
@@ -48,13 +47,13 @@ public class Main {
         // Loop through the TSF file of commands to be processed
         handleTSFileCommands(transactionsToBeExecuted);
 
-
+        // Write the new files after program execution is complete
         writeNewMasterAccountsFile(newMasterAccountsFilename, accountUtilities.accountList);
         writeNewValidAccountsFile(newValidAccountsFilename, accountUtilities.accountList);
     }
 
     /**
-     * Loops through the commands in the TSF file and process them.
+     * Loops through the commands from the merged transaction summary file and process them.
      *
      * @param lines List of un-parsed commands
      */
@@ -109,8 +108,8 @@ public class Main {
     /**
      * Writes to the master accounts file given a filename and account list.
      *
-     * @param filename    a filename as a String
-     * @param accountList a list of accounts to write
+     * @param filename    filename as a String
+     * @param accountList list of accounts to write
      */
     private static void writeNewMasterAccountsFile(String filename, ArrayList<ValidAccount> accountList) {
         ArrayList<String> masterAccountsFileList = new ArrayList<>(accountList.size());
@@ -128,8 +127,8 @@ public class Main {
     /**
      * Writes a new valid accounts file given a filename and list of accounts to record.
      *
-     * @param filename      a String representing the filename to be written to
-     * @param validAccounts an ArrayList of valid accounts
+     * @param filename      String representing the filename to be written to
+     * @param validAccounts ArrayList of valid accounts
      */
     private static void writeNewValidAccountsFile(String filename, ArrayList<ValidAccount> validAccounts) {
         ArrayList<String> linesToWrite = new ArrayList<>(validAccounts.size());
@@ -146,8 +145,8 @@ public class Main {
     /**
      * Parses the master accounts file contents into ValidAccount objects for use in the program.
      *
-     * @param contents the file contents as a List of Strings
-     * @return file contents as a list of ValidAccount objects
+     * @param contents  file contents as a List of Strings
+     * @return          file contents as a list of ValidAccount objects
      */
     private static ArrayList<ValidAccount> parseMasterAccountsFileContents(ArrayList<String> contents) {
         ArrayList<ValidAccount> accountList = new ArrayList<>();

@@ -1,7 +1,5 @@
 package com.qa_ninjas;
 
-import java.util.Comparator;
-
 public class ValidAccount implements Comparable<ValidAccount> {
     private int acctNum;
     private int acctBalance;
@@ -36,6 +34,6 @@ public class ValidAccount implements Comparable<ValidAccount> {
     }
 
     public int compareTo(ValidAccount compareValidAccount) {
-        return this.acctNum - ((ValidAccount) compareValidAccount).getAcctNum();
+        return this.acctNum - compareValidAccount.getAcctNum();
     }
 }

@@ -1,8 +1,8 @@
 package com.qa_ninjas;
 
 /**
- * Stores list of all transactions to be written to TSF file, and holds common
- * validation methods used by subclasses.
+ * Class to handle all transaction related operations, including validation, and execution.
+ *
  * Created by jacobhuschilt on 11/10/17.
  */
 public class TransactionUtilities {
@@ -10,8 +10,8 @@ public class TransactionUtilities {
     /**
      * Validates a specified amount.
      *
-     * @param amount        Amount to be transferred
-     * @return              true if the specified amount is valid, and false otherwise
+     * @param amount    Amount to be transferred
+     * @return          true if the specified amount is valid, and false otherwise
      */
     private boolean isValidAmount(String amount) {
         // making sure that the amount input is actually a number
@@ -28,12 +28,12 @@ public class TransactionUtilities {
     }
 
     /**
-     * Validates a transaction doesn't have a negative balance.
+     * Validates that a transaction will not leave a negative balance in an account (invalid).
      *
      * @param accountUtilities  accountUtilities reference
      * @param fromAcctNum       a valid account number
      * @param amount            a valid amount
-     * @return true             if the transaction does not result in a negative account balance, false otherwise
+     * @return                  true if the transaction does not result in a negative account balance, false otherwise
      */
     private boolean isValidTransaction(AccountUtilities accountUtilities, int fromAcctNum, int amount) {
         try {

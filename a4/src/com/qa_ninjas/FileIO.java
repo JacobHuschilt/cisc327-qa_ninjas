@@ -6,15 +6,15 @@ import java.util.ArrayList;
 /**
  * Class to handle all File I/O operations.
  *
- * Created by jacobhuschilt on 10/17/17.
+ * Created by jacobhuschilt on 11/10/17.
  */
 public class FileIO {
 
     /**
      * Reads the contents of a specified file.
      *
-     * @param filename a given filename
-     * @return the contents of the file
+     * @param filename  given filename
+     * @return          file contents
      */
     static ArrayList<String> readFile(String filename) {
         ArrayList<String> fileContents = new ArrayList<>();
@@ -50,7 +50,9 @@ public class FileIO {
         } while (!done);
 
         try {
-            in.close();
+            if (in != null) {
+                in.close();
+            }
         } catch (IOException error) {
             System.out.println("Error closing file: " + error);
         } catch (NullPointerException e) {
@@ -63,8 +65,8 @@ public class FileIO {
     /**
      * Writes the specified contents to the specified file.
      *
-     * @param filename name of the file to be written to
-     * @param contents the contents to be written to the file
+     * @param filename  name of the file to be written to
+     * @param contents  contents to be written to the file
      */
     static void writeToFile(String filename, ArrayList<String> contents) {
         try {

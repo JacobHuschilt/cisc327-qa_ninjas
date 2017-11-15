@@ -8,14 +8,18 @@ import java.util.ArrayList;
  * accounts.  The ArrayList called "accountList" takes ValidAccount objects.
  */
 public class AccountUtilities {
+    /**
+     * Global Properties
+     */
     ArrayList<ValidAccount> accountList = new ArrayList<>();
+
 
     /**
      * This method validates a given account number.  It prints an error message
      * warning the user if the account number did not meet the requirements.
      *
-     * @param acctNum un-validated account number
-     * @return true if the account number is valid, false otherwise.
+     * @param acctNum   un-validated account number
+     * @return          true if the account number is valid, false otherwise.
      */
     static boolean isValidAcct(String acctNum) {
         try {
@@ -28,55 +32,11 @@ public class AccountUtilities {
     }
 
     /**
-     * Determines if the account exists in the validAccounts file/temporary storage.
-     *
-     * @param acctNum account number to search with
-     * @return true if account exists, false otherwise
-     */
-    private boolean doesAccountExist(int acctNum) {
-        return (getAccountFromList(acctNum) != null);
-    }
-
-    /**
-     * Retrieves the account object associated with the specified acctNum.
-     *
-     * @param acctNum a valid account number
-     * @return a valid account object if found in the list, null otherwise
-     */
-    ValidAccount getAccountFromList(int acctNum) {
-        for (ValidAccount account : accountList) {
-            if (acctNum == account.getAcctNum()) {
-                return account;
-            }
-        }
-
-        return null; // can't find account
-    }
-
-    /**
-     * Searches the list of valid accounts to determine if the specified account is new.
-     *
-     * @param acctNum a valid account number
-     * @return true if account is new, otherwise false
-     */
-    boolean isNewAccount(int acctNum) {
-        for (ValidAccount account : accountList) {
-            if (account.getAcctNum() == acctNum) {
-                if (account.isNew()) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * This method validates a given account name.  It warns the user if the account
      * name is too short, too long or contains non-alphabetic characters.
      *
-     * @param name an un-verified name
-     * @return true if valid and false otherwise.
+     * @param name  un-verified name
+     * @return      true if valid and false otherwise.
      */
     private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
@@ -95,14 +55,58 @@ public class AccountUtilities {
     }
 
     /**
+     * Determines if the account exists in the validAccounts file/temporary storage.
+     *
+     * @param acctNum   account number to search with
+     * @return          true if account exists, false otherwise
+     */
+    private boolean doesAccountExist(int acctNum) {
+        return (getAccountFromList(acctNum) != null);
+    }
+
+    /**
+     * Searches the list of valid accounts to determine if the specified account is new.
+     *
+     * @param acctNum   valid account number
+     * @return          true if account is new, otherwise false
+     */
+    boolean isNewAccount(int acctNum) {
+        for (ValidAccount account : accountList) {
+            if (account.getAcctNum() == acctNum) {
+                if (account.isNew()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Retrieves the account object associated with the specified acctNum.
+     *
+     * @param acctNum   valid account number
+     * @return          valid account object if found in the list, null otherwise
+     */
+    ValidAccount getAccountFromList(int acctNum) {
+        for (ValidAccount account : accountList) {
+            if (acctNum == account.getAcctNum()) {
+                return account;
+            }
+        }
+
+        return null; // can't find account
+    }
+
+    /**
      * This method handles the addition or deletion of an account using the valid
      * account list declared above. It simply handles updating and does not return
      * anything. The third parameter "isNew" flag is set to true if the current
      * account that the method is working with is in fact new, false otherwise.
      *
-     * @param acctNum a valid account number
-     * @param name    a valid name
-     * @param isNew   a boolean indicating whether to add or delete the specified account
+     * @param acctNum valid account number
+     * @param name    valid name
+     * @param isNew   boolean indicating whether to add or delete the specified account
      */
     private void updateAccountList(int acctNum, String name, boolean isNew) {
         if (isNew) { // adding new account
@@ -124,8 +128,8 @@ public class AccountUtilities {
     /**
      * Creates an account for the specified account number and name.
      *
-     * @param acctNum an un-verified account number
-     * @param name    an un-verified account name
+     * @param acctNum un-verified account number
+     * @param name    un-verified account name
      */
     void createAccount(String acctNum, String name) {
         if (!isValidAcct(acctNum)) {
@@ -142,8 +146,8 @@ public class AccountUtilities {
     /**
      * Deletes an account with the specified account number.
      *
-     * @param acctNum an un-verified account number
-     * @param name    an un-verified account name
+     * @param acctNum un-verified account number
+     * @param name    un-verified account name
      */
     void deleteAccount(String acctNum, String name) {
         if (!isValidAcct(acctNum)) {
