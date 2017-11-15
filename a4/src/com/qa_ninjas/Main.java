@@ -1,6 +1,8 @@
 package com.qa_ninjas;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Main class file to delegate for the QBasic Back Office.
@@ -31,10 +33,15 @@ public class Main {
             return;
         }
 
-        String oldMasterAccountsFilename = args[0];
-        String mergedTSFilename = args[1];
-        String newMasterAccountsFilename = args[2];
-        String newValidAccountsFilename = args[3];
+        String oldMasterAccountsFilename =  args[0];
+        String mergedTSFilename =           args[1];
+        String newMasterAccountsFilename =  args[2];
+        String newValidAccountsFilename =   args[3];
+
+        System.out.println("oldmaf: " + oldMasterAccountsFilename);
+        System.out.println("mtsf: " + mergedTSFilename);
+        System.out.println("newmaf: " + newMasterAccountsFilename);
+        System.out.println("newvaf: " + newValidAccountsFilename);
 
         // read the 2 files
         try {
@@ -48,10 +55,8 @@ public class Main {
         // Loop through the TSF file of commands to be processed
         handleTSFileCommands(transactionsToBeExecuted);
 
-        // TODO: Output a new Master Accounts file
-        writeNewMasterAccountsFile(newMasterAccountsFilename, accountUtilities.accountList);
 
-        // TODO: Output a new valid accounts file
+        writeNewMasterAccountsFile(newMasterAccountsFilename, accountUtilities.accountList);
         writeNewValidAccountsFile(newValidAccountsFilename, accountUtilities.accountList);
     }
 
@@ -61,8 +66,6 @@ public class Main {
      * @param lines List of un-parsed commands
      */
     private static void handleTSFileCommands(ArrayList<String> lines) {
-        // TODO: Fix all of this because there is no login type or anything, its just a list of commands from the summary file, and not a command input file
-
         // Looping through the list of lines
         for (String commandLine : lines) {
             String[] splitCommand = commandLine.split(" ");
@@ -119,13 +122,11 @@ public class Main {
     private static void writeNewMasterAccountsFile(String filename, ArrayList<ValidAccount> accountList) {
         ArrayList<String> masterAccountsFileList = new ArrayList<>(accountList.size());
 
-        // TODO: Make sure that you sort the accounts in ascending numerical order based
-        // TODO: Remove deleted accounts and don't include them in the new master accounts file or the valid accounts file!!!
-        for (ValidAccount account : accountList) {
-            String balance = account.getAcctBalance() + "";
-            String masterAccountLine = account.getAcctNum() + " " + balance + " " + account.getName();
+        // sort the accounts
+        Collections.sort(accountList);
 
-            masterAccountsFileList.add(masterAccountLine);
+        for (ValidAccount account : accountList) {
+            masterAccountsFileList.add(account.getAcctNum() + " " + account.getAcctBalance() + " " + account.getName());
         }
 
         FileIO.writeToFile(filename, masterAccountsFileList);
@@ -138,7 +139,7 @@ public class Main {
      * @param validAccounts an ArrayList of valid accounts
      */
     private static void writeNewValidAccountsFile(String filename, ArrayList<ValidAccount> validAccounts) {
-        ArrayList<String> linesToWrite = new ArrayList<>();
+        ArrayList<String> linesToWrite = new ArrayList<>(validAccounts.size());
 
         for (ValidAccount account : validAccounts) {
             linesToWrite.add(account.getAcctNum() + "");

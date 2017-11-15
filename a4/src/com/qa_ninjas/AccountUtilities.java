@@ -37,22 +37,6 @@ public class AccountUtilities {
         return (getAccountFromList(acctNum) != null);
     }
 
-//    /**
-//     * Updates the specified new balance for a specified account.
-//     *
-//     * @param acctNum    valid account number
-//     * @param newBalance new balance for the account
-//     */
-//    void updateBalanceForAcctNum(int acctNum, int newBalance) {
-//        try {
-//            ValidAccount account = getAccountFromList(acctNum);
-//
-//            account.setAcctBalance(newBalance);
-//        } catch (NullPointerException e) {
-//            System.out.println("Error! Account does not exist.");
-//        }
-//    }
-
     /**
      * Retrieves the account object associated with the specified acctNum.
      *
@@ -125,10 +109,10 @@ public class AccountUtilities {
             ValidAccount newAcct = new ValidAccount(acctNum, 0, name, true);
             accountList.add(newAcct);
         } else { // removing existing account
-            for (ValidAccount singleAccount : accountList) {
+            for (ValidAccount account : accountList) {
                 // Find the account in the list, and delete it
-                if (acctNum == singleAccount.getAcctNum()) {
-                    // TODO: Actually delete the account from the list
+                if (acctNum == account.getAcctNum()) {
+                    accountList.remove(account);
                     return;
                 }
             }
@@ -162,15 +146,16 @@ public class AccountUtilities {
      * @param name    an un-verified account name
      */
     void deleteAccount(String acctNum, String name) {
-        if (isValidAcct(acctNum)) {
-            if (!doesAccountExist(Integer.parseInt(acctNum))) {
-                System.out.println("Error: Account does not exist");
-            } else { // account exists, and we can delete it!!!
-                // TODO: Check to see if the account balance is 0 before deleting it from the master and valid list
-                updateAccountList(Integer.parseInt(acctNum), name, false);
-            }
-        } else {
+        if (!isValidAcct(acctNum)) {
             System.out.println("Error: Invalid account number");
+        } else if (!doesAccountExist(Integer.parseInt(acctNum))) {
+            System.out.println("Error: Account does not exist");
+        } else if (getAccountFromList(Integer.parseInt(acctNum)).getAcctBalance() != 0) {
+            System.out.println("Error! Cannot delete an account with a balance that is not 0.");
+        } else if (getAccountFromList(Integer.parseInt(acctNum)).getName() != name) {
+            System.out.println("Error! Name does not match name associated with the account.");
+        } else { // account exists, and all information is verified, and can be deleted!!!
+            updateAccountList(Integer.parseInt(acctNum), name, false);
         }
     }
 }
