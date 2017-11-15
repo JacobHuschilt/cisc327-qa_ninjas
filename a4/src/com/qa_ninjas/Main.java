@@ -1,7 +1,6 @@
 package com.qa_ninjas;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 /**
@@ -38,18 +37,12 @@ public class Main {
         String newMasterAccountsFilename =  args[2];
         String newValidAccountsFilename =   args[3];
 
-        System.out.println("oldmaf: " + oldMasterAccountsFilename);
-        System.out.println("mtsf: " + mergedTSFilename);
-        System.out.println("newmaf: " + newMasterAccountsFilename);
-        System.out.println("newvaf: " + newValidAccountsFilename);
-
-        // read the 2 files
         try {
             accountUtilities.accountList = parseMasterAccountsFileContents(FileIO.readFile(oldMasterAccountsFilename));
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Error! Missing arguments for command: " + e);
         }
-        ArrayList<String> masterAccountList = FileIO.readFile(oldMasterAccountsFilename);
+
         ArrayList<String> transactionsToBeExecuted = FileIO.readFile(mergedTSFilename);
 
         // Loop through the TSF file of commands to be processed
@@ -68,7 +61,7 @@ public class Main {
     private static void handleTSFileCommands(ArrayList<String> lines) {
         // Looping through the list of lines
         for (String commandLine : lines) {
-            String[] splitCommand = commandLine.split(" ");
+            String[] splitCommand = commandLine.split(" ", 5);
 
             try {
                 String command = splitCommand[0];
@@ -160,7 +153,7 @@ public class Main {
         ArrayList<ValidAccount> accountList = new ArrayList<>();
 
         for (String account : contents) {
-            String[] accountInformation = account.split(" ");
+            String[] accountInformation = account.split(" ", 3);
 
             try {
                 int accountNum = Integer.parseInt(accountInformation[0]);

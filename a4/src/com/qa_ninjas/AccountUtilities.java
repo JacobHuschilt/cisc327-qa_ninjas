@@ -80,7 +80,7 @@ public class AccountUtilities {
      */
     private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
-            if (name.charAt(0) != ' ' || !Character.isAlphabetic(name.charAt(i))) {
+            if (!Character.isAlphabetic(name.charAt(i)) && name.charAt(i) != ' ') {
                 System.out.println("Error! Invalid Account Name: " + name);
                 return false;
             }
@@ -152,7 +152,7 @@ public class AccountUtilities {
             System.out.println("Error: Account does not exist");
         } else if (getAccountFromList(Integer.parseInt(acctNum)).getAcctBalance() != 0) {
             System.out.println("Error! Cannot delete an account with a balance that is not 0.");
-        } else if (getAccountFromList(Integer.parseInt(acctNum)).getName() != name) {
+        } else if (!getAccountFromList(Integer.parseInt(acctNum)).getName().equals(name)) {
             System.out.println("Error! Name does not match name associated with the account.");
         } else { // account exists, and all information is verified, and can be deleted!!!
             updateAccountList(Integer.parseInt(acctNum), name, false);
