@@ -33,6 +33,12 @@ public class ValidAccount implements Comparable<ValidAccount> {
         return isNew;
     }
 
+    /**
+     * Comparator method for sorting ValidAccount objects based on account number.
+     *
+     * @param compareValidAccount   ValidAccount object
+     * @return                      comparable value
+     */
     public int compareTo(ValidAccount compareValidAccount) {
         return this.acctNum - compareValidAccount.getAcctNum();
     }
