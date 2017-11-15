@@ -34,13 +34,23 @@ public class AccountUtilities {
      * @return true if account exists, false otherwise
      */
     private boolean doesAccountExist(int acctNum) {
-        for (ValidAccount singleAccount : accountList) {
-            if (acctNum == singleAccount.getAcctNum()) {
-                return true;
+        return (getAccountFromList(acctNum) != null);
+    }
+
+    /**
+     * Retrieves the account object associated with the specified acctNum.
+     *
+     * @param acctNum a valid account number
+     * @return a valid account object if found in the list, null otherwise
+     */
+    private ValidAccount getAccountFromList(int acctNum) {
+        for (ValidAccount account : accountList) {
+            if (acctNum == account.getAcctNum()) {
+                return account;
             }
         }
 
-        return false;
+        return null; // can't find account
     }
 
     /**
@@ -59,6 +69,13 @@ public class AccountUtilities {
         }
 
         return false;
+    }
+
+    int getBalanceWithAccountNum(int acctNum) {
+
+
+
+        return -1; // can't find account
     }
 
     /**

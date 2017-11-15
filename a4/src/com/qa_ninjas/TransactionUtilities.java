@@ -6,6 +6,12 @@ package com.qa_ninjas;
  * Created by jacobhuschilt on 10/18/17.
  */
 public class TransactionUtilities {
+
+    /**
+     * Global Properties
+     */
+    private static final int NO_ACCOUNT = -1;
+
     /**
      * Validates a specified amount for a specified sessionType.
      *
@@ -17,6 +23,7 @@ public class TransactionUtilities {
         // making sure that the amount input is actually a number
         try {
             int amountInt = (Integer.parseInt(amount));
+
             if (sessionType == Session.agent) {
                 if (amountInt > 99999999) {
                     return false;
@@ -26,27 +33,31 @@ public class TransactionUtilities {
                     return false;
                 }
             }
+
             return true;
         } catch (NumberFormatException exception) {
             System.out.println("Error! Amount is invalid.");
+
             return false;
         }
 
     }
 
+    private boolean isValidTransaction(AccountUtilities accountUtilities, int fromAcctNum, int toAcctNum, int amount) {
+        if (fromAcctNum == NO_ACCOUNT && toAcctNum == NO_ACCOUNT) { // transfer
 
-    /**
-     * Updates the temporary transaction list being stored in memory.
-     *
-     * @param code        Transaction Code
-     * @param fromAcctNum Valid From Account Number
-     * @param amount      Valid Amount to be transferred in cents
-     * @param toAcctNum   Valid To Account Number
-     * @param name        Valid name
-     */
-    private void updateTransactionList(String code, String toAcctNum, String amount,
-                                       String fromAcctNum, String name) {
-        Main.tsfChanges.add(code + " " + toAcctNum + " " + amount + " " + fromAcctNum + " " + name);
+            return false;
+        } else if (fromAcctNum == NO_ACCOUNT) { // deposit
+
+            return false;
+        } else if (toAcctNum == NO_ACCOUNT) { // withdraw
+
+            return false;
+        } else { // invalid transaction
+            System.out.println("Error: Invalid transaction");
+
+            return false;
+        }
     }
 
     /**
@@ -67,6 +78,7 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum)) || accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
+            // TODO: Check to see that the transfer does not give anyone a negative account balance
             updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, "");
         }
     }
@@ -94,6 +106,7 @@ public class TransactionUtilities {
                     return;
                 }
             }
+            // TODO: Check to see that the transfer does not give anyone a negative account balance
             updateTransactionList("WDR", "0000000", amount, fromAcctNum, "");
         }
     }
@@ -115,6 +128,7 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
+            // TODO: Check to see that the transfer does not give anyone a negative account balance
             updateTransactionList("DEP", toAcctNum, amount, "0000000", "");
         }
     }
