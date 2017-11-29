@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Wrapper script to run the QA_Ninjas Java program easily from the command line
+# ©2017 Jacob Huschilt
+# Date Modified: 11/02/2017
+
+# QBasic Java program needs 3 parameters to run, this verifies that 3 are provided
+if (( $# != 3 )); then
+    echo "Error Needs 3 arguments to run" >&2
+    exit 1
+fi
+
+ACCOUNT_FILE=$1
+TSF_FILE=$2
+INPUT_FILE=$3
+
+# Run the JAR file created for the Java program with the 3 command line arguments provided
+java -jar ../out/artifacts/cisc327_qa_ninjas_jar/cisc327-qa_ninjas.jar $1 $2 $3
+
+exit 0
