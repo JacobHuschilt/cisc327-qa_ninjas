@@ -1,0 +1,2 @@
+The file cannot be opened: java.io.FileNotFoundException: inputs/daily-input4.txt (No such file or directory)
+Error closing the file: java.lang.NullPointerException
