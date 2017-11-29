@@ -4,15 +4,15 @@
 # ©2017 QA_Ninjas
 # Last Modified: 11/29/2017
 
-if (( $# != 3 )); then
-    echo "Error: Need to pass 3 args: number of sessions, path to frontend, path to backend" >&2
+if (( $# != 2 )); then
+    echo "Error: Need to pass 2 args:path to frontend, path to backend" >&2
     exit 1
 fi
 
 echo "Daily Script"
 
 # Command-line arguments
-NUM_OF_SESSIONS=$1
+NUM_OF_SESSIONS=3
 PATH_TO_FRONT_END=$2
 PATH_TO_BACK_END=$3
 
