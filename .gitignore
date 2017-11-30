@@ -33,4 +33,7 @@ hs_err_pid*
 .idea/workspace.xml
 .idea/**tasks.xml
 out/
-.idea/artifacts/
+**/.idea/artifacts/
+
+# ignore a6 temp files
+a6/outputs/*

@@ -95,16 +95,17 @@ public class AccountUtilities {
      */
     private boolean isValidName(String name) {
         for (int i = 0; i < name.length(); i++) {
-            // TODO: Something wrong here returns false for "Jonny Smith"
-            if (!Character.isAlphabetic(name.charAt(i)) || name.charAt(i) != ' ') {
+            if (!Character.isAlphabetic(name.charAt(i)) && name.charAt(i) != ' ') {
                 System.out.println("Error! Invalid Account Name: " + name);
                 return false;
             }
         }
+
         if (name.length() < 3 || name.length() > 30) {
             System.out.println("Error! Unacceptable length for Account Name: " + name);
             return false;
         }
+
         return true;
     }
 

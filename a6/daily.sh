@@ -18,7 +18,7 @@ PATH_TO_BACK_END=$3
 
 # File paths
 TSF_PATH="transaction-summary"
-MERGED_TSF_PATH="merged-tsf"
+MERGED_TSF_PATH="merged-tsf.txt"
 VALID_ACCOUNTS_PATH="valid-accounts.txt"
 MASTER_ACCOUNTS_PATH="master-accounts.txt"
 DAILY_OUTPUT_BASENAME="daily-output"
@@ -32,11 +32,13 @@ for (( i=1; i <= $NUM_OF_SESSIONS; i++ )); do
     echo "Running Daily Session #$i:"
     echo "------------------------------------------------------------"
 
-    ./qbasic $VALID_ACCOUNTS_PATH outputs/${TSF_PATH}${i}.txt inputs/${DAILY_INPUT_BASENAME}${i}.txt > outputs/${DAILY_OUTPUT_BASENAME}${i}.log 
+    java -jar cisc327-qa_ninjas.jar $VALID_ACCOUNTS_PATH outputs/${TSF_PATH}${i}.txt inputs/${DAILY_INPUT_BASENAME}${i}.txt > outputs/${DAILY_OUTPUT_BASENAME}${i}.log 
 done
 
 # TODO: concatenate all TSF files into a mergedTSF file
 
-# TODO: run the $PATH_TO_BACK_END script once
+# Runs back-end script
+# TODO: package JAR files for front end and back end into convenient locations inside the a6 folder
+java -jar qa_ninjas-back-office.jar $MASTER_ACCOUNTS_PATH outputs/$MERGED_TSF_PATH $MASTER_ACCOUNTS_PATH $VALID_ACCOUNTS_PATH
 
 exit 0
