@@ -23,7 +23,7 @@ for (( i=1; i <= 5; i++ )); do
     echo "Running Day $i"
     echo "=================================================="
 
-	./daily.sh $PATH_TO_FRONT_END $PATH_TO_BACK_END
+	./daily.sh $i $PATH_TO_FRONT_END $PATH_TO_BACK_END
 
     echo
     echo

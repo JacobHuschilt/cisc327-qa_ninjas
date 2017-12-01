@@ -4,16 +4,17 @@
 # ©2017 QA_Ninjas
 # Last Modified: 11/29/2017
 
-if (( $# != 2 )); then
-    echo "Error: Need to pass 2 args:path to frontend JAR file, path to backend JAR file" >&2
+if (( $# != 3 )); then
+    echo "Error: Need to pass 3 args: day number in week, path to frontend JAR file, path to backend JAR file" >&2
     exit 1
 fi
 
 echo "Daily Script"
 
 # Command-line arguments
-PATH_TO_FRONT_END=$1
-PATH_TO_BACK_END=$2
+DAY_NUMBER=$1
+PATH_TO_FRONT_END=$2
+PATH_TO_BACK_END=$3
 
 NUM_OF_SESSIONS=3
 
@@ -27,10 +28,10 @@ DAILY_INPUT_BASENAME="daily-input"
 
 function runFrontEndSessions {
     for (( i=1; i<=$NUM_OF_SESSIONS; i++ )); do
-        echo "Running Daily Session #$i:"
+        echo "Running Daily Session #$i for day $DAY_NUMBER:"
         echo "------------------------------------------------------------"
 
-        java -jar $PATH_TO_FRONT_END $VALID_ACCOUNTS_FILENAME outputs/${TSF_FILENAME}${i}.txt inputs/${DAILY_INPUT_BASENAME}${i}.txt > outputs/${DAILY_OUTPUT_BASENAME}${i}.log 
+        java -jar $PATH_TO_FRONT_END $VALID_ACCOUNTS_FILENAME outputs/${TSF_FILENAME}${DAY_NUMBER}_${i}.txt inputs/${DAILY_INPUT_BASENAME}${DAY_NUMBER}_${i}.txt > outputs/${DAILY_OUTPUT_BASENAME}${DAY_NUMBER}_${i}.log 
     done
 }
 
@@ -40,7 +41,7 @@ function mergeTSF {
     touch outputs/$MERGED_TSF_FILENAME
 
     for (( i=1; i<=$NUM_OF_SESSIONS; i++ )); do
-	    FILE=outputs/${TSF_FILENAME}${i}.txt
+	    FILE=outputs/${TSF_FILENAME}${DAY_NUMBER}_${i}.txt
 
 	    if [ ! -f "$FILE" ]; then
 		    echo "Error: File DNE!">&2
@@ -50,9 +51,6 @@ function mergeTSF {
 		    fi
 	    fi
     done
-    #for FILE in outputs/${TSF_PATH}?*.txt; do
-     #   cat $FILE >> outputs/$MERGED_TSF_FILENAME
-    #done
 }
 
 function runBackOffice {
