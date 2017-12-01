@@ -1,0 +1,3 @@
+login,agent
+deleteacct,1234569,Billy Bob
+logout

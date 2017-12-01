@@ -1,0 +1,4 @@
+login,agent 
+deleteacct,1234567,Jon Stewart
+transfer,1234569,1234567,10
+logout 
