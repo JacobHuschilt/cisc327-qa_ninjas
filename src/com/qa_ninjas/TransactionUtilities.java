@@ -67,7 +67,7 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum)) || accountUtilities.isNewAccount(Integer.parseInt(fromAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
-            updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, "");
+            updateTransactionList("XFR", toAcctNum, amount, fromAcctNum, "***");
         }
     }
 
@@ -94,7 +94,7 @@ public class TransactionUtilities {
                     return;
                 }
             }
-            updateTransactionList("WDR", "0000000", amount, fromAcctNum, "");
+            updateTransactionList("WDR", "0000000", amount, fromAcctNum, "***");
         }
     }
 
@@ -115,7 +115,7 @@ public class TransactionUtilities {
         } else if (accountUtilities.isNewAccount(Integer.parseInt(toAcctNum))) {
             System.out.println("Error! No transactions are allowed on new accounts.");
         } else {
-            updateTransactionList("DEP", toAcctNum, amount, "0000000", "");
+            updateTransactionList("DEP", toAcctNum, amount, "0000000", "***");
         }
     }
 }
