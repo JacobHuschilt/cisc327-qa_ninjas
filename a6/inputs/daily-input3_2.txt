@@ -1,0 +1,5 @@
+login,agent
+deposit,10000,1234567
+deposit,10,1234569
+transfer,1234567,10,1234569
+logout

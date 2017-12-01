@@ -76,13 +76,20 @@ public class TransactionUtilities {
             }
             case deposit: {
                 toAccount = accountUtilities.getAccountFromList(toAcctNum);
-
+                if (toAccount == null) {
+                    System.out.println("Error: To Account not found");
+                    break;
+                }
                 toAccount.setAcctBalance(toAccount.getAcctBalance() + amount);
 
                 break;
             }
             case withdraw: {
                 fromAccount = accountUtilities.getAccountFromList(fromAcctNum);
+                if (fromAccount == null) {
+                    System.out.println("Error: From Account not found");
+                    break;
+                }
 
                 fromAccount.setAcctBalance(fromAccount.getAcctBalance() - amount);
 

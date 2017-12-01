@@ -1,0 +1,5 @@
+login,agent
+deposit,1234562,2000
+transfer,1234563,100,1234562
+deleteAccount,1234566,Steph Mel
+logout

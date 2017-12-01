@@ -1,0 +1,5 @@
+login,agent
+deposit,1234566,300000
+transfer,1234569,100,1234566
+withdraw,1000,1234569
+logout

@@ -20,7 +20,7 @@ NUM_OF_SESSIONS=3
 
 # File paths
 TSF_FILENAME="transaction-summary"
-MERGED_TSF_FILENAME="merged-tsf.txt"
+MERGED_TSF_FILENAME="merged-tsf"
 VALID_ACCOUNTS_FILENAME="valid-accounts.txt"
 MASTER_ACCOUNTS_FILENAME="master-accounts.txt"
 DAILY_OUTPUT_BASENAME="daily-output"
@@ -38,7 +38,7 @@ function runFrontEndSessions {
 function mergeTSF {
     echo "Merging TSF Files"
     echo "----------------------------------------------------------------"
-    touch outputs/$MERGED_TSF_FILENAME
+    touch outputs/${MERGED_TSF_FILENAME}${DAY_NUMBER}.txt
 
     for (( i=1; i<=$NUM_OF_SESSIONS; i++ )); do
 	    FILE=outputs/${TSF_FILENAME}${DAY_NUMBER}_${i}.txt
@@ -47,7 +47,7 @@ function mergeTSF {
 		    echo "Error: File DNE!">&2
 	    else
 		    if [[ ! -s FILE ]]; then
-			    cat $FILE >> outputs/${MERGED_TSF_FILENAME}
+			    cat $FILE >> outputs/${MERGED_TSF_FILENAME}${DAY_NUMBER}.txt
 		    fi
 	    fi
     done
@@ -57,14 +57,12 @@ function runBackOffice {
     echo "Running Back Office"
     echo "------------------------------------------------------------------"
 
-    java -jar $PATH_TO_BACK_END $MASTER_ACCOUNTS_FILENAME outputs/$MERGED_TSF_FILENAME $MASTER_ACCOUNTS_FILENAME $VALID_ACCOUNTS_FILENAME
+    java -jar $PATH_TO_BACK_END $MASTER_ACCOUNTS_FILENAME outputs/${MERGED_TSF_FILENAME}${DAY_NUMBER}.txt $MASTER_ACCOUNTS_FILENAME $VALID_ACCOUNTS_FILENAME
 }
 
 # Main Program Execution
 runFrontEndSessions
 mergeTSF
 runBackOffice
-# remove the merged tsf file
-rm outputs/$MERGED_TSF_FILENAME
 
 exit 0

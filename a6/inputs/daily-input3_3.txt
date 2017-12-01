@@ -1,0 +1,5 @@
+login,agent
+withdraw,100,1234567
+createAccount,1234566,Steph Mel
+deleteAccount,1234566,Steph Mel
+logout
