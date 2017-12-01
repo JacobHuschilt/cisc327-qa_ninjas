@@ -1,5 +1,5 @@
 login,agent
-withdraw,10,1234561
+withdraw,1234561,10
 deposit,1234561,10000
 deleteAccount,1234561,Jacob
 logout

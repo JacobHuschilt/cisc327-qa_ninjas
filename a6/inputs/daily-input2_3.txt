@@ -1,5 +1,5 @@
 login,machine
-withdraw,2000,1234567
+withdraw,1234567,2000
 createaccount,2123456,Joseph W
 deleteaccount,1234567,Jon Stewart
 logout

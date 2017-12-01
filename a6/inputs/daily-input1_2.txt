@@ -1,6 +1,6 @@
 login,agent
-deposit,1000,1234567
-deposit,10000,1234569
-deposit,100,1234568
-withdraw,100,1234568
+deposit,1234567,1000
+deposit,1234569,10000
+deposit,1234568,100
+withdraw,1234568,100
 logout
